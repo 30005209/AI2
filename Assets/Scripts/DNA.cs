@@ -9,7 +9,8 @@ public class DNA<T>
 	private Func<T> getRandomGene;
 	private Func<int, float> fitnessFunction;
 
-	public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction, bool shouldInitGenes = true)
+	public DNA(int size, Random random, Func<T> getRandomGene, 
+		Func<int, float> fitnessFunction, bool shouldInitGenes = true)
 	{
 		Genes = new T[size];
 		this.random = random;
