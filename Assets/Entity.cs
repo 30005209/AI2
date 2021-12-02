@@ -57,36 +57,20 @@ public class Entity : MonoBehaviour
         public ActionType GetChoice(int input)
         {
             ActionType choiceMade = ActionType.hide;
-            
-            if (input < 0) Debug.LogError("Negative EventWeight Choice Inputted");
 
-            if (input < actions[(int) ActionType.eat] && input != 0)
-            {
-                choiceMade = ActionType.eat;
-                input = 0;
-            }
-            else input -= actions[(int) ActionType.eat];
-            
-            if (input < (int) ActionType.sleep && input != 0)
-            {
-                choiceMade = ActionType.sleep;
-                input = 0;
-            }
-            else input -= (int) ActionType.sleep;
-            
-            if (input < actions[(int) ActionType.fight] && input != 0)
-            {
-                choiceMade = ActionType.fight;
-                input = 0;
-            }
-            else input -= (int) ActionType.fight;
+            if (input > 0) choiceMade = ActionType.eat;
+            input -= actions[(int) ActionType.eat];
 
-            if (input < (int) ActionType.reproduce && input != 0)
-            {
-                choiceMade = ActionType.reproduce;
-                input = 0;
-            }
-            else input -= (int) ActionType.reproduce;
+            if (input > 0) choiceMade = ActionType.sleep;
+            input -= actions[(int) ActionType.sleep];
+
+            if (input > 0) choiceMade = ActionType.fight;
+            input -= actions[(int) ActionType.fight];
+
+            if (input > 0) choiceMade = ActionType.reproduce;
+            input -= actions[(int) ActionType.reproduce];
+            
+            if (input > 0) choiceMade = ActionType.hide;
 
             return choiceMade;
         }
@@ -108,7 +92,7 @@ public class Entity : MonoBehaviour
     [SerializeField] protected int energyMax;
     [SerializeField] protected int speed;
     [SerializeField] protected int damage;
-    [FormerlySerializedAs("curEnergy")] [SerializeField] protected int energyCur;
+    [SerializeField] protected int energyCur;
     [SerializeField] protected int sight;
     [SerializeField] protected int nutritionalValue;
 
@@ -151,6 +135,16 @@ public class Entity : MonoBehaviour
         this.energyCur += amount;
 
         if (energyCur > energyMax) energyCur = energyMax;
+    }
+
+    public bool MustAct()
+    {
+        return this.mustAct;
+    }
+
+    public void SetMustAct(bool newVal)
+    {
+        this.mustAct = newVal;
     }
 
     public void Update()
