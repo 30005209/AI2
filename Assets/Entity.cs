@@ -82,19 +82,14 @@ public class Entity : MonoBehaviour
 
         public void RemoveWeight(ActionType givenType)
         {
-            actions[(int)givenType] -= 5;
-            if (actions[(int) givenType] < 10) actions[(int) givenType] = 10;
+            actions[(int)givenType] -= 10;
         }
         
     }
 
-    [SerializeField] protected int size;
     [SerializeField] protected int energyMax;
-    [SerializeField] protected int speed;
     [SerializeField] protected int damage;
     [SerializeField] protected int energyCur;
-    [SerializeField] protected int sight;
-    [SerializeField] protected int nutritionalValue;
 
     [SerializeField] protected EventWeight herbivore;
     [SerializeField] protected EventWeight carnivore;
@@ -105,6 +100,8 @@ public class Entity : MonoBehaviour
 
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected bool mustAct = true;
+
+    public string causeOfDeath = "";
     
     public EntityType GetEntType()
     {
@@ -125,15 +122,21 @@ public class Entity : MonoBehaviour
         return this.damage;
     }
 
-    public int GetNutValue()
+    public int GetEnergyCur()
     {
-        return this.nutritionalValue;
+        return this.energyCur;
     }
 
-    public void GainEnergy(int amount)
+    public int GetEnergyMax()
+    {
+        return this.energyMax;
+    }
+
+    public void ChangeEnergyLevel(int amount)
     {
         this.energyCur += amount;
 
+        if (this.energyCur < 0) this.energyCur = 0;
         if (energyCur > energyMax) energyCur = energyMax;
     }
 

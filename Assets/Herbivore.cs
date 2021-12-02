@@ -14,54 +14,53 @@ public class Herbivore : Entity
 
     public Herbivore()
     {
-        herbivore = new EventWeight(100, 100, 100, 100, 100);
-        herbivore.UpdateTotal();
+        this.food = new EventWeight(10, 10, 10, 10, 10);
+        this.food.UpdateTotal();
         
-        carnivore = new EventWeight(100, 100, 100, 100, 100);
-        carnivore.UpdateTotal();
+        this.herbivore = new EventWeight(10, 10, 10, 10, 10);
+        this.herbivore.UpdateTotal();
         
-        omnivore = new EventWeight(100, 100, 100, 100, 100);
-        omnivore.UpdateTotal();
+        this.carnivore = new EventWeight(10, 10, 10, 10, 10);
+        this.carnivore.UpdateTotal();
         
-        food = new EventWeight(100, 100, 100, 100, 100);
-        food.UpdateTotal();
+        this.omnivore = new EventWeight(10, 10, 10, 10, 10);
+        this.omnivore.UpdateTotal();
+
+
     }
 
-    public void Start()
+    private void Start()
     {
         this.type = EntityType.herbivore;
-
-        this.isAlive = true;
         this.damage = 20;
-        this.sight = 5;
         this.energyMax = 1000;
-        this.energyCur = energyMax;
-        this.nutritionalValue = 300;
-        this.size = 1;
-        this.speed = 5;
-
+        this.energyCur = this.energyMax;
+        this.isAlive = true;
         manager = this.GetComponentInParent<TestManager>();
     }
 
-    public void Update()
+    new public void Update()
     {
-        if (mustAct)
-        {
-            Day();
-        }
-
         if (energyCur <= 0)
         {
             SetAlive(false);
+            causeOfDeath = "Starved";
+        }
+        else if (mustAct)
+        {
+            Day();
+            if(energyCur > 500)
+            {
+                Reproduce(manager.entities.Find(e => e.GetEntType() == EntityType.herbivore));
+            }
         }
     }
 
     private void Day()
     {
-        List<Entity> dailyList = manager.entities;
-        for (int i = 0; i < this.sight; i++)
+        if (manager.entities.Count > 1)
         {
-            MakeChoice(dailyList[manager.random.Next(dailyList.Count)]);
+            MakeChoice(manager.entities[manager.random.Next(manager.entities.Count)]);
         }
         mustAct = false;
     }
@@ -70,7 +69,11 @@ public class Herbivore : Entity
     {
         return herbivore;
     }
-    
+    public EventWeight GetFood()
+    {
+        return food;
+    }
+
     void InheritInfo(Herbivore parent0, Herbivore parent1)
     {
         List<int> p0HerbAction = parent0.GetHerbivore().actions;
@@ -83,22 +86,30 @@ public class Herbivore : Entity
             (p0HerbAction[(int) ActionType.reproduce] + p1HerbAction[(int) ActionType.reproduce]) / 2,
             (p0HerbAction[(int) ActionType.hide] + p1HerbAction[(int) ActionType.hide]) / 2);
         herbivore.UpdateTotal();
-        
+                
         carnivore = new EventWeight(100, 100, 100, 100, 100);
         carnivore.UpdateTotal();
         
         omnivore = new EventWeight(100, 100, 100, 100, 100);
         omnivore.UpdateTotal();
-        
-        food = new EventWeight(100, 100, 100, 100, 100);
+
+        List<int> p0FoodAction = parent0.GetFood().actions;
+        List<int> p1FoodAction = parent1.GetFood().actions;
+
+        food = new EventWeight(
+            (p0FoodAction[(int)ActionType.eat] + p1FoodAction[(int)ActionType.eat]) / 2,
+            (p0FoodAction[(int)ActionType.fight] + p1FoodAction[(int)ActionType.fight]) / 2,
+            (p0FoodAction[(int)ActionType.sleep] + p1FoodAction[(int)ActionType.sleep]) / 2,
+            (p0FoodAction[(int)ActionType.reproduce] + p1FoodAction[(int)ActionType.reproduce]) / 2,
+            (p0FoodAction[(int)ActionType.hide] + p1FoodAction[(int)ActionType.hide]) / 2);
         food.UpdateTotal();
-        
+
     }
 
     private void MakeChoice(Entity targetEntity)
     {
-        if (targetEntity == this) Sleep(this);
-        if (energyCur > 0)
+        print("Herbivore has chosen a " + targetEntity.GetEntType());
+        if (energyCur > 0 && targetEntity != this)
         {
             switch (targetEntity.GetEntType())
             {
@@ -176,60 +187,95 @@ public class Herbivore : Entity
         if (targetEntity.GetEntType() == EntityType.food && targetEntity.IsAlive())
         {
             targetEntity.SetAlive(false);
-            GainEnergy(targetEntity.GetNutValue());
+            targetEntity.causeOfDeath = "Eaten";
+            ChangeEnergyLevel(targetEntity.GetEnergyMax()/2);
             //print(this.name + " is eating and gained some energy");
         }
         else
         {
-            //print(this.name + " tried to eat but was unable to do so");
+            print("Herbivore tried to eat but was unable to do so");
         }
     }
 
     private void Fight(Entity targetEntity)
     {
-        if (targetEntity.IsAlive())
+        ChangeEnergyLevel(-100);
+        if (targetEntity.IsAlive() && targetEntity.GetEntType() != EntityType.food)
         {
-            energyCur -= 400;
+            ChangeEnergyLevel(-150);
             targetEntity.SetAlive(manager.random.Next(100) < this.damage);
-            
+
             if (targetEntity.IsAlive())
             {
                 this.SetAlive(manager.random.Next(100) < targetEntity.GetDamage());
-                print(this.name + " tried to fight " + targetEntity.name + " and it fought back");
+
+                if (targetEntity.GetEntType() == EntityType.herbivore)
+                {
+                    herbivore.RemoveWeight(ActionType.fight);
+                }
+                if (targetEntity.GetEntType() == EntityType.carnivore)
+                {
+                    carnivore.RemoveWeight(ActionType.fight);
+                }
+                if (targetEntity.GetEntType() == EntityType.omnivore)
+                {
+                    omnivore.RemoveWeight(ActionType.fight);
+                }
             }
             else
             {
                 print(this.name + " tried to fight " + targetEntity.name + " and killed it");
+
+                if (targetEntity.GetEntType() == EntityType.herbivore)
+                {
+                    herbivore.AddWeight(ActionType.fight);
+                }
+                if (targetEntity.GetEntType() == EntityType.carnivore)
+                {
+                    carnivore.AddWeight(ActionType.fight);
+                }
+                if (targetEntity.GetEntType() == EntityType.omnivore)
+                {
+                    omnivore.AddWeight(ActionType.fight);
+                }
             }
         }
         else
         {
-            print(this.name + " tried to find a fight but was unable to do so");
+            MakeChoice(targetEntity);
         }
     }
 
     private void Sleep(Entity targetEntity)
     {
         //print(this.name + " found a place to nap near " + targetEntity.name);
-        energyCur += 100;
+        ChangeEnergyLevel(-100);
     }
 
     private void Reproduce(Entity targetEntity)
-    {        
-        energyCur -= 300;
-        if (targetEntity.GetEntType() == this.GetEntType())
+    {
+        if(targetEntity.GetEntType() == EntityType.herbivore)
         {
-            Herbivore child = gameObject.AddComponent<Herbivore>();
-            child.InheritInfo((Herbivore)this, (Herbivore)targetEntity);
-            manager.entities.Add(child);
-            child.transform.parent = manager.transform;
-            //print(this.name + " tried to get jiggy with " + targetEntity.name);
+            ChangeEnergyLevel(-500);
+            if (energyCur > 0)
+            {
+                Herbivore child = gameObject.AddComponent<Herbivore>();
+                child.InheritInfo((Herbivore)this, (Herbivore)targetEntity);
+                child.energyCur = 0;
+                manager.entities.Add(child);
+                child.transform.parent = manager.transform;
+            }
+        }
+        else
+        {
+            ChangeEnergyLevel(-100);
+            MakeChoice(targetEntity);
         }
     }
 
     private void Hide(Entity targetEntity)
     {
-        energyCur -= 100;
+        ChangeEnergyLevel(-100);
         //print(this.name + " tried to get hide from " + targetEntity.name);
     }
 
