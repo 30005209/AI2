@@ -12,7 +12,7 @@ public class Herbivore : Entity
 {
     TestManager manager;
 
-    Herbivore()
+    public Herbivore()
     {
         herbivore = new EventWeight(100, 100, 100, 100, 100);
         herbivore.UpdateTotal();
@@ -27,27 +27,6 @@ public class Herbivore : Entity
         food.UpdateTotal();
     }
 
-    Herbivore(Herbivore parent0, Herbivore parent1)
-    {
-        herbivore = new EventWeight(
-            (parent0.herbivore.actions[(int) ActionType.eat] + parent1.herbivore.actions[(int) ActionType.eat]) / 2,
-            (parent0.herbivore.actions[(int) ActionType.fight] + parent1.herbivore.actions[(int) ActionType.fight]) / 2,
-            (parent0.herbivore.actions[(int) ActionType.sleep] + parent1.herbivore.actions[(int) ActionType.sleep]) / 2,
-            (parent0.herbivore.actions[(int) ActionType.reproduce] + parent1.herbivore.actions[(int) ActionType.reproduce]) / 2,
-            (parent0.herbivore.actions[(int) ActionType.hide] + parent1.herbivore.actions[(int) ActionType.hide]) / 2);
-            herbivore.UpdateTotal();
-        
-        carnivore = new EventWeight(100, 100, 100, 100, 100);
-        carnivore.UpdateTotal();
-        
-        omnivore = new EventWeight(100, 100, 100, 100, 100);
-        omnivore.UpdateTotal();
-        
-        food = new EventWeight(100, 100, 100, 100, 100);
-        food.UpdateTotal();
-    }
-    
-    
     public void Start()
     {
         this.type = EntityType.herbivore;
@@ -75,7 +54,6 @@ public class Herbivore : Entity
         {
             SetAlive(false);
         }
-        
     }
 
     private void Day()
@@ -86,6 +64,35 @@ public class Herbivore : Entity
             MakeChoice(dailyList[manager.random.Next(dailyList.Count)]);
         }
         mustAct = false;
+    }
+
+    public EventWeight GetHerbivore()
+    {
+        return herbivore;
+    }
+    
+    void InheritInfo(Herbivore parent0, Herbivore parent1)
+    {
+        List<int> p0HerbAction = parent0.GetHerbivore().actions;
+        List<int> p1HerbAction = parent1.GetHerbivore().actions;
+        
+        herbivore = new EventWeight(
+            (p0HerbAction[(int) ActionType.eat] + p1HerbAction[(int) ActionType.eat]) / 2,
+            (p0HerbAction[(int) ActionType.fight] + p1HerbAction[(int) ActionType.fight]) / 2,
+            (p0HerbAction[(int) ActionType.sleep] + p1HerbAction[(int) ActionType.sleep]) / 2,
+            (p0HerbAction[(int) ActionType.reproduce] + p1HerbAction[(int) ActionType.reproduce]) / 2,
+            (p0HerbAction[(int) ActionType.hide] + p1HerbAction[(int) ActionType.hide]) / 2);
+        herbivore.UpdateTotal();
+        
+        carnivore = new EventWeight(100, 100, 100, 100, 100);
+        carnivore.UpdateTotal();
+        
+        omnivore = new EventWeight(100, 100, 100, 100, 100);
+        omnivore.UpdateTotal();
+        
+        food = new EventWeight(100, 100, 100, 100, 100);
+        food.UpdateTotal();
+        
     }
 
     private void MakeChoice(Entity targetEntity)
@@ -212,7 +219,10 @@ public class Herbivore : Entity
         energyCur -= 300;
         if (targetEntity.GetEntType() == this.GetEntType())
         {
-            manager.entities.Add(gameObject.AddComponent<Herbivore>());
+            Herbivore child = gameObject.AddComponent<Herbivore>();
+            child.InheritInfo((Herbivore)this, (Herbivore)targetEntity);
+            manager.entities.Add(child);
+            child.transform.parent = manager.transform;
             //print(this.name + " tried to get jiggy with " + targetEntity.name);
         }
     }
