@@ -70,15 +70,15 @@ public class Herbivore : Entity
     {
         if(targetEntity.GetEntType() == EntityType.herbivore)
         {
-            ChangeEnergyLevel(-250);
-            Herbivore child = gameObject.AddComponent<Herbivore>();
             if (this != null && targetEntity != null)
             {
-                child.InheritInfo((Herbivore) this, (Herbivore) targetEntity);
-            }
+            ChangeEnergyLevel(-250);
+            Herbivore child = gameObject.AddComponent<Herbivore>();
+            child.InheritInfo(this, (Herbivore) targetEntity);
             manager.entities.Add(child);
             child.energyCur = 500;
             child.transform.parent = manager.transform;
+            }
         }
     }
 

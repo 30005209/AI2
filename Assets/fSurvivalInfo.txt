@@ -1,0 +1,30 @@
+Test:
+
+Average Food Stats (Food): 15 | 24 | 23
+Average Food Stats (Herb): 14 | 15 | 29
+Average Food Stats (Food): 13 | 34 | 36
+Average Food Stats (Herb): 26 | 12 | 25
+Average Food Stats (Food): 11 | 25 | 30
+Average Food Stats (Herb): 24 | 15 | 23
+Average Food Stats (Food): 14 | 23 | 34
+Average Food Stats (Herb): 30 | 14 | 14
+Average Food Stats (Food): 11 | 17 | 30
+Average Food Stats (Herb): 21 | 25 | 20
+Average Food Stats (Food): 16 | 20 | 19
+Average Food Stats (Herb): 27 | 26 | 18
+Average Food Stats (Food): 9 | 19 | 26
+Average Food Stats (Herb): 19 | 27 | 13
+Average Food Stats (Food): 9 | 17 | 24
+Average Food Stats (Herb): 18 | 29 | 11
+Average Food Stats (Food): 10 | 25 | 19
+Average Food Stats (Herb): 17 | 36 | 14
+Average Food Stats (Food): 7 | 52 | 9
+Average Food Stats (Herb): 17 | 36 | 20
+Average Food Stats (Food): 6 | 59 | 7
+Average Food Stats (Herb): 17 | 36 | 22
+Average Food Stats (Food): 8 | 72 | 8
+Average Food Stats (Herb): 13 | 68 | 16
+Average Food Stats (Food): 8 | 72 | 8
+Average Food Stats (Herb): 13 | 68 | 16
+Average Food Stats (Food): 8 | 72 | 8
+Average Food Stats (Herb): 13 | 68 | 16

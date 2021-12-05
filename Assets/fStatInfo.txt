@@ -1,0 +1,131 @@
+Test:
+
+
+NewGeneration (Died:5)(New Total Pop: 10):
+Average: 200
+Elite (Pop: 1) Reaching 320
+Elite (Pop: 2) Reaching 320
+Elite (Pop: 3) Reaching 320
+Elite (Pop: 4) Reaching 320
+Elite (Pop: 5) Reaching 320
+Elite (Pop: 5) Reaching 320
+Elite (Pop: 5) Reaching 320
+Elite (Pop: 5) Reaching 320
+Elite (Pop: 5) Reaching 320
+Elite (Pop: 5) Reaching 320
+Elite (Pop: 5) Reaching 320
+Weak (Pop: 0) Reaching 80
+
+NewGeneration (Died:3)(New Total Pop: 4):
+Average: 375
+Elite (Pop: 1) Reaching 520
+Elite (Pop: 2) Reaching 520
+Elite (Pop: 2) Reaching 520
+Elite (Pop: 2) Reaching 520
+Elite (Pop: 2) Reaching 520
+Elite (Pop: 2) Reaching 520
+Elite (Pop: 2) Reaching 520
+Weak (Pop: 0) Reaching 130
+
+NewGeneration (Died:1)(New Total Pop: 6):
+Average: 304
+Elite (Pop: 1) Reaching 360
+Elite (Pop: 1) Reaching 360
+Elite (Pop: 1) Reaching 360
+Elite (Pop: 2) Reaching 360
+Elite (Pop: 2) Reaching 360
+Weak (Pop: 0) Reaching 90
+
+NewGeneration (Died:0)(New Total Pop: 8):
+Average: 325
+Elite (Pop: 0) Reaching 760
+Elite (Pop: 0) Reaching 760
+Elite (Pop: 0) Reaching 760
+Elite (Pop: 0) Reaching 760
+Elite (Pop: 0) Reaching 760
+Elite (Pop: 1) Reaching 760
+Elite (Pop: 1) Reaching 760
+Weak (Pop: 0) Reaching 190
+
+NewGeneration (Died:1)(New Total Pop: 8):
+Average: 271
+Elite (Pop: 1) Reaching 440
+Elite (Pop: 1) Reaching 440
+Elite (Pop: 1) Reaching 440
+Elite (Pop: 2) Reaching 440
+Elite (Pop: 2) Reaching 440
+Elite (Pop: 3) Reaching 440
+Weak (Pop: 1) Reaching 110
+
+NewGeneration (Died:2)(New Total Pop: 8):
+Average: 340
+Elite (Pop: 1) Reaching 280
+Elite (Pop: 2) Reaching 280
+Elite (Pop: 3) Reaching 280
+Elite (Pop: 4) Reaching 280
+Elite (Pop: 4) Reaching 280
+Elite (Pop: 4) Reaching 280
+Weak (Pop: 0) Reaching 70
+
+NewGeneration (Died:1)(New Total Pop: 12):
+Average: 228
+Elite (Pop: 1) Reaching 280
+Elite (Pop: 1) Reaching 280
+Elite (Pop: 2) Reaching 280
+Elite (Pop: 2) Reaching 280
+Elite (Pop: 2) Reaching 280
+Elite (Pop: 3) Reaching 280
+Elite (Pop: 4) Reaching 280
+Weak (Pop: 0) Reaching 70
+
+NewGeneration (Died:1)(New Total Pop: 12):
+Average: 219
+Elite (Pop: 1) Reaching 280
+Elite (Pop: 1) Reaching 280
+Elite (Pop: 2) Reaching 280
+Elite (Pop: 2) Reaching 280
+Elite (Pop: 3) Reaching 280
+Elite (Pop: 3) Reaching 280
+Elite (Pop: 4) Reaching 280
+Weak (Pop: 0) Reaching 70
+
+NewGeneration (Died:2)(New Total Pop: 10):
+Average: 196
+Elite (Pop: 0) Reaching 360
+Elite (Pop: 1) Reaching 360
+Elite (Pop: 1) Reaching 360
+Elite (Pop: 1) Reaching 360
+Elite (Pop: 2) Reaching 360
+Elite (Pop: 3) Reaching 360
+Weak (Pop: 0) Reaching 90
+
+NewGeneration (Died:3)(New Total Pop: 4):
+Average: 161
+Elite (Pop: 0) Reaching 280
+Elite (Pop: 1) Reaching 280
+Elite (Pop: 1) Reaching 280
+Elite (Pop: 1) Reaching 280
+Weak (Pop: 0) Reaching 70
+
+NewGeneration (Died:0)(New Total Pop: 4):
+Average: 152
+Elite (Pop: 1) Reaching 160
+Elite (Pop: 2) Reaching 160
+Elite (Pop: 2) Reaching 160
+Weak (Pop: 0) Reaching 40
+
+NewGeneration (Died:1)(New Total Pop: 2):
+Average: 251
+Elite (Pop: 1) Reaching 280
+Elite (Pop: 1) Reaching 280
+Weak (Pop: 0) Reaching 70
+
+NewGeneration (Died:1)(New Total Pop: 0):
+Average: 251
+Elite (Pop: 0) Reaching 280
+Weak (Pop: 0) Reaching 70
+
+NewGeneration (Died:0)(New Total Pop: 0):
+Average: 251
+Elite (Pop: 0) Reaching 280
+Weak (Pop: 0) Reaching 70
