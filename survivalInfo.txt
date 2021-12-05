@@ -1,0 +1,30 @@
+
+NewGeneration (Died:0)(New Total Pop: 20):
+Average: 310
+Elite (Pop: 4) Reaching 640
+Weak (Pop: 0) Reaching 160
+
+NewGeneration (Died:0)(New Total Pop: 28):
+Average: 296
+Elite (Pop: 13) Reaching 320
+Weak (Pop: 0) Reaching 80
+
+NewGeneration (Died:0)(New Total Pop: 20):
+Average: 250
+Elite (Pop: 1) Reaching 640
+Weak (Pop: 0) Reaching 160
+
+NewGeneration (Died:0)(New Total Pop: 22):
+Average: 234
+Elite (Pop: 7) Reaching 320
+Weak (Pop: 0) Reaching 80
+
+NewGeneration (Died:0)(New Total Pop: 20):
+Average: 270
+Elite (Pop: 7) Reaching 480
+Weak (Pop: 0) Reaching 120
+
+NewGeneration (Died:0)(New Total Pop: 32):
+Average: 237
+Elite (Pop: 12) Reaching 320
+Weak (Pop: 0) Reaching 80

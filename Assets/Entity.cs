@@ -48,6 +48,15 @@ public class Entity : MonoBehaviour
             {
                 this.curTotal += i;
             }
+
+            if (curTotal > 120)
+            {
+                actions[(int) ActionType.eat] -= 10;
+                actions[(int) ActionType.fight] -= 10;
+                actions[(int) ActionType.hide] -= 10;
+            }
+            
+            
         }
 
         public int GetTotal()
@@ -86,8 +95,9 @@ public class Entity : MonoBehaviour
     }
 
     [SerializeField] protected int energyMax;
-    [SerializeField] protected int damage;
     [SerializeField] protected int energyCur;
+    protected int energyStart;
+    [SerializeField] protected int damage;
 
     [SerializeField] protected EventWeight herbivore;
     [SerializeField] protected EventWeight carnivore;
@@ -99,7 +109,8 @@ public class Entity : MonoBehaviour
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected bool mustAct = true;
 
-    protected int numOfMoves = 2;
+    protected int moveNumMax = 3;
+    protected int moveNumCur = 2;
     
     protected TestManager manager;
 
@@ -143,6 +154,11 @@ public class Entity : MonoBehaviour
     public int GetDamage()
     {
         return this.damage;
+    }
+
+    public int GetEnergyStart()
+    {
+        return energyStart;
     }
 
     public int GetEnergyCur()
@@ -265,7 +281,7 @@ public class Entity : MonoBehaviour
 
     public void ResetMoves()
     {
-        numOfMoves = 2;
+        moveNumCur = moveNumMax;
     }
 
     public void NightReproduce(Entity target)
@@ -273,19 +289,30 @@ public class Entity : MonoBehaviour
         Reproduce(target);
     }
 
+    public void MakeFight(Entity target)
+    {
+        Fight(target);
+    }
+    
     protected void Day()
     {
-        if (manager.entities.Count > 1 && numOfMoves > 0)
+        if (manager.entities.Count > 1 && moveNumCur > 0)
         {
             ChangeEnergyLevel(50);
             MakeChoice(manager.entities[manager.random.Next(manager.entities.Count)]);
-            numOfMoves--;
+            moveNumCur--;
         }
     }
     
     public virtual void Update()
     {
-        mustAct = numOfMoves > 0;
+        mustAct = moveNumCur > 0;
+
+        if (moveNumCur == moveNumMax)
+        {
+            energyStart = energyCur;
+        }
+        
         if (mustAct)
         {
             Day();
