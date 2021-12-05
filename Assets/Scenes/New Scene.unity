@@ -161,9 +161,11 @@ MonoBehaviour:
   groundEnergy: 10000
   entities: []
   eliteFood: []
+  weakFood: []
   eliteFoodAmount: 1000
+  weakFoodAmount: 100
   eliteHerb: []
-  updateTimer: 100
+  updateTimer: 5
 --- !u!4 &85808078
 Transform:
   m_ObjectHideFlags: 0

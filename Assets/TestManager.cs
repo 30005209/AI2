@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.IO;
 
 public class TestManager : MonoBehaviour
 {
@@ -20,10 +21,13 @@ public class TestManager : MonoBehaviour
     [SerializeField] public int groundEnergy = 1000;
     [SerializeField] public List<Entity> entities;
     [SerializeField] public List<Entity> eliteFood;
+    [SerializeField] public List<Entity> weakFood;
     [SerializeField] public float eliteFoodAmount = 1000;
+    [SerializeField] public float weakFoodAmount = 100;
     [SerializeField] public List<Entity> eliteHerb;
     [SerializeField] private float updateTimer = 10;
     public System.Random random;
+    private string path;
 
     // Start is called before the first frame update
     void Start()
@@ -33,12 +37,15 @@ public class TestManager : MonoBehaviour
         {
             entities.Add(gameObject.AddComponent<Food>());
         }
+
         for (int i = 0; i < numOfHerb; i++)
         {
             Herbivore x;
-            
+
             entities.Add(gameObject.AddComponent<Herbivore>());
         }
+        
+        CreateText();
     }
 
     void Update()
@@ -66,20 +73,27 @@ public class TestManager : MonoBehaviour
         updateTimer -= Time.deltaTime;
 
         eliteFood.Clear();
-        
+        weakFood.Clear();
+
         if (updateTimer < 0)
         {
-            numOfFood = 0;
             updateTimer = 5;
-            
+
+            int averageFood = 0;
             foreach (Entity e in entities)
             {
                 if (e.GetEntType() == Entity.EntityType.food)
                 {
                     eliteFoodAmount = e.GetEnergyCur() * 0.8f;
+                    weakFoodAmount = e.GetEnergyCur() * 0.2f;
+                    averageFood += e.GetEnergyCur();
                     numOfFood++;
                 }
             }
+
+            averageFood /= numOfFood;
+            File.AppendAllText(path, "\nNewGeneration (Died:" + deadFood.ToString() + ")(New Total Pop: "
+                                     + numOfFood.ToString() + "):\n" + "Average: " + averageFood.ToString());
 
             foreach (Entity e in entities)
             {
@@ -89,9 +103,13 @@ public class TestManager : MonoBehaviour
                     {
                         eliteFood.Add(e);
                     }
+                    else if (e.GetEnergyCur() <= weakFoodAmount)
+                    {
+                        weakFood.Add(e);
+                    }
                 }
-                
-               e.ResetMoves();
+
+                e.ResetMoves();
             }
 
             foreach (Food f in eliteFood)
@@ -103,14 +121,32 @@ public class TestManager : MonoBehaviour
                     f.NightReproduce(eliteFood[random.Next(eliteFood.Count - 1)]);
                 }
             }
+
+            foreach (Food f in weakFood)
+            {
+                //f.SetAlive(false);
+            }
+
+            File.AppendAllText(path, "\nElite (Pop: " + eliteFood.Count.ToString()
+                                                      + ") Reaching " + eliteFoodAmount.ToString().ToString());
+
+           //File.AppendAllText(path, "\nWeak (Pop: " + weakFood.Count.ToString()
+           //                                          + ") Reaching " + weakFoodAmount.ToString().ToString() + "\n");
+
+            numOfFood = 0;
+            deadFood = 0;
+            deadHerb = 0;
         }
-
-
-
-
     }
+    void CreateText()
+    {
+        path = Application.dataPath + "/Log01.txt";
 
-
+        if (!File.Exists(path))
+        {
+            File.WriteAllText(path, "Test:\n\n");
+        }
+    }
     public List<Entity> GetAllEnts()
     {
         return entities;
