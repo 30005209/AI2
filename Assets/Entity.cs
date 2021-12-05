@@ -33,6 +33,18 @@ public class Entity : MonoBehaviour
     {
         public List<int> actions;
         public int curTotal;
+
+        public static EventWeight operator +(EventWeight a, EventWeight b)
+            => new EventWeight(
+                a.actions[(int)ActionType.eat] + b.actions[(int)ActionType.eat], 
+                a.actions[(int)ActionType.fight] + b.actions[(int)ActionType.fight],
+                a.actions[(int)ActionType.hide] + b.actions[(int)ActionType.hide]);
+
+        public static EventWeight operator /(EventWeight a, int b)
+            => new EventWeight(a.actions[(int) ActionType.eat] / b,
+                a.actions[(int) ActionType.fight] / b,
+                a.actions[(int) ActionType.hide] / b);
+
         
         public EventWeight(int eat, int fight, int hide)
         {
@@ -55,8 +67,6 @@ public class Entity : MonoBehaviour
                 actions[(int) ActionType.fight] -= 10;
                 actions[(int) ActionType.hide] -= 10;
             }
-            
-            
         }
 
         public int GetTotal()
@@ -84,14 +94,31 @@ public class Entity : MonoBehaviour
         {
             actions[(int) givenType] += 10;
             if (actions[(int) givenType] > 100) actions[(int) givenType] = 100;
+            UpdateTotal();
         }
 
         public void RemoveWeight(ActionType givenType)
         {
             actions[(int)givenType] -= 10;
             if (actions[(int) givenType] < 10) actions[(int) givenType] = 10;
+            UpdateTotal();
         }
         
+        public string OutputEWStats()
+        {
+            string output = null;
+            
+            // Eat
+            output += actions[(int) ActionType.eat] + " | ";
+
+            // Fight
+            output += actions[(int) ActionType.fight] + " | ";
+
+            // Sleep
+            output += actions[(int) ActionType.hide] + "\n";
+                
+            return output;
+        }
     }
 
     [SerializeField] protected int energyMax;
@@ -142,6 +169,27 @@ public class Entity : MonoBehaviour
         }
     }
 
+    public EventWeight GetEW(EntityType target)
+    {
+        switch (target)
+        {
+            case EntityType.food:
+                return food;
+            
+            case EntityType.herbivore:
+                return herbivore;
+            
+            case EntityType.carnivore:
+                return carnivore;
+                
+            case EntityType.omnivore:
+                return omnivore;
+            
+            default:
+                return food;
+        }
+    }
+    
     public bool IsAlive()
     {
         return isAlive;
@@ -325,5 +373,6 @@ public class Entity : MonoBehaviour
             manager.groundEnergy += GetEnergyMax()/2;
         }
     }
+
     
 }

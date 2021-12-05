@@ -1,0 +1,31 @@
+Test:
+
+
+NewGeneration (Died:4)(New Total Pop: 12):
+Average: 341
+NewGeneration (Died:5)(New Total Pop: 10):
+Average: 244
+NewGeneration (Died:5)(New Total Pop: 4):
+Average: 323
+NewGeneration (Died:0)(New Total Pop: 6):
+Average: 287
+NewGeneration (Died:1)(New Total Pop: 4):
+Average: 409
+NewGeneration (Died:2)(New Total Pop: 4):
+Average: 489
+NewGeneration (Died:3)(New Total Pop: 2):
+Average: 419
+NewGeneration (Died:0)(New Total Pop: 2):
+Average: 459
+NewGeneration (Died:0)(New Total Pop: 2):
+Average: 729
+NewGeneration (Died:0)(New Total Pop: 4):
+Average: 594
+NewGeneration (Died:3)(New Total Pop: 2):
+Average: 422
+NewGeneration (Died:0)(New Total Pop: 2):
+Average: 511
+NewGeneration (Died:1)(New Total Pop: 2):
+Average: 480
+NewGeneration (Died:0)(New Total Pop: 2):
+Average: 465
