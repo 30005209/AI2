@@ -1,0 +1,112 @@
+Test:
+
+
+NewGeneration (Died:0)(New Total Pop: 20):
+Average: 245
+Elite (Pop: 10) Reaching 320
+Weak (Pop: 0) Reaching 80
+
+NewGeneration (Died:0)(New Total Pop: 26):
+Average: 232
+Elite (Pop: 10) Reaching 320
+Weak (Pop: 0) Reaching 80
+
+NewGeneration (Died:0)(New Total Pop: 38):
+Average: 207
+Elite (Pop: 11) Reaching 400
+Weak (Pop: 1) Reaching 100
+
+NewGeneration (Died:2)(New Total Pop: 46):
+Average: 228
+Elite (Pop: 17) Reaching 320
+Weak (Pop: 3) Reaching 80
+
+NewGeneration (Died:5)(New Total Pop: 54):
+Average: 236
+Elite (Pop: 22) Reaching 320
+Weak (Pop: 1) Reaching 80
+
+NewGeneration (Died:1)(New Total Pop: 68):
+Average: 205
+Elite (Pop: 19) Reaching 400
+Weak (Pop: 3) Reaching 100
+
+NewGeneration (Died:3)(New Total Pop: 84):
+Average: 189
+Elite (Pop: 26) Reaching 400
+Weak (Pop: 5) Reaching 100
+
+NewGeneration (Died:6)(New Total Pop: 90):
+Average: 199
+Elite (Pop: 30) Reaching 320
+Weak (Pop: 2) Reaching 80
+
+NewGeneration (Died:3)(New Total Pop: 104):
+Average: 189
+Elite (Pop: 30) Reaching 320
+Weak (Pop: 2) Reaching 80
+
+NewGeneration (Died:4)(New Total Pop: 116):
+Average: 187
+Elite (Pop: 18) Reaching 480
+Weak (Pop: 7) Reaching 120
+
+NewGeneration (Died:8)(New Total Pop: 122):
+Average: 195
+Elite (Pop: 36) Reaching 400
+Weak (Pop: 6) Reaching 100
+
+NewGeneration (Died:6)(New Total Pop: 132):
+Average: 187
+Elite (Pop: 45) Reaching 320
+Weak (Pop: 2) Reaching 80
+
+NewGeneration (Died:8)(New Total Pop: 136):
+Average: 213
+Elite (Pop: 48) Reaching 320
+Weak (Pop: 2) Reaching 80
+
+NewGeneration (Died:7)(New Total Pop: 172):
+Average: 205
+Elite (Pop: 60) Reaching 320
+Weak (Pop: 1) Reaching 80
+
+NewGeneration (Died:10)(New Total Pop: 192):
+Average: 219
+Elite (Pop: 65) Reaching 400
+Weak (Pop: 7) Reaching 100
+
+NewGeneration (Died:7)(New Total Pop: 244):
+Average: 198
+Elite (Pop: 44) Reaching 480
+Weak (Pop: 15) Reaching 120
+
+NewGeneration (Died:16)(New Total Pop: 272):
+Average: 194
+Elite (Pop: 78) Reaching 400
+Weak (Pop: 6) Reaching 100
+
+NewGeneration (Died:7)(New Total Pop: 314):
+Average: 187
+Elite (Pop: 90) Reaching 400
+Weak (Pop: 19) Reaching 100
+
+NewGeneration (Died:21)(New Total Pop: 326):
+Average: 195
+Elite (Pop: 99) Reaching 400
+Weak (Pop: 20) Reaching 100
+
+NewGeneration (Died:23)(New Total Pop: 362):
+Average: 200
+Elite (Pop: 126) Reaching 320
+Weak (Pop: 6) Reaching 80
+
+NewGeneration (Died:16)(New Total Pop: 418):
+Average: 209
+Elite (Pop: 134) Reaching 400
+Weak (Pop: 13) Reaching 100
+
+NewGeneration (Died:16)(New Total Pop: 506):
+Average: 197
+Elite (Pop: 165) Reaching 400
+Weak (Pop: 21) Reaching 100
