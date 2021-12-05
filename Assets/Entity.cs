@@ -1,6 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO.MemoryMappedFiles;
+using JetBrains.Annotations;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
@@ -21,9 +25,7 @@ public class Entity : MonoBehaviour
     {
         eat = 0,
         fight = 1,
-        sleep = 2,
-        reproduce = 3,
-        hide = 4,
+        hide = 2
     }
 
     [System.Serializable]
@@ -32,9 +34,9 @@ public class Entity : MonoBehaviour
         public List<int> actions;
         public int curTotal;
         
-        public EventWeight(int eat, int fight, int sleep, int repro, int hide)
+        public EventWeight(int eat, int fight, int hide)
         {
-            actions = new List<int> {eat, fight, sleep, repro, hide};
+            actions = new List<int> {eat, fight, hide};
 
             this.curTotal = 10000;
         }
@@ -61,15 +63,9 @@ public class Entity : MonoBehaviour
             if (input > 0) choiceMade = ActionType.eat;
             input -= actions[(int) ActionType.eat];
 
-            if (input > 0) choiceMade = ActionType.sleep;
-            input -= actions[(int) ActionType.sleep];
-
             if (input > 0) choiceMade = ActionType.fight;
             input -= actions[(int) ActionType.fight];
-
-            if (input > 0) choiceMade = ActionType.reproduce;
-            input -= actions[(int) ActionType.reproduce];
-            
+          
             if (input > 0) choiceMade = ActionType.hide;
 
             return choiceMade;
@@ -78,11 +74,13 @@ public class Entity : MonoBehaviour
         public void AddWeight(ActionType givenType)
         {
             actions[(int) givenType] += 10;
+            if (actions[(int) givenType] > 100) actions[(int) givenType] = 100;
         }
 
         public void RemoveWeight(ActionType givenType)
         {
             actions[(int)givenType] -= 10;
+            if (actions[(int) givenType] < 10) actions[(int) givenType] = 10;
         }
         
     }
@@ -101,11 +99,36 @@ public class Entity : MonoBehaviour
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected bool mustAct = true;
 
+    protected int numOfMoves = 2;
+    
+    protected TestManager manager;
+
     public string causeOfDeath = "";
     
     public EntityType GetEntType()
     {
         return this.type;
+    }
+
+    public ref EventWeight GetTargEW(Entity target)
+    {
+        switch (target.GetEntType())
+        {
+            case EntityType.food:
+                return ref food;
+
+            case EntityType.herbivore:
+                return ref herbivore;
+
+            case EntityType.carnivore:
+                return ref carnivore;
+
+            case EntityType.omnivore:
+                return ref omnivore;
+            
+            default:
+                return ref food;
+        }
     }
 
     public bool IsAlive()
@@ -150,9 +173,130 @@ public class Entity : MonoBehaviour
         this.mustAct = newVal;
     }
 
-    public void Update()
+    protected ref EventWeight GetEw(EntityType eType)
+    {
+        while (true)
+        {
+            switch (eType)
+            {
+                case EntityType.food:
+                    return ref food;
+                case EntityType.herbivore:
+                    return ref herbivore;
+                case EntityType.carnivore:
+                    return ref carnivore;
+                case EntityType.omnivore:
+                    return ref omnivore;
+                default:
+                    eType = this.GetEntType();
+                    break;
+            }
+        }
+    }
+    
+    protected void InheritInfo<T>(T parent0, T parent1) where T : Entity
+    {
+        for (int i = (int) EntityType.food; i <= (int) EntityType.omnivore; i++)
+        {
+            List<int> p0Action = parent0.GetEw((EntityType)i).actions;
+            List<int> p1Action = parent1.GetEw((EntityType)i).actions;
+
+            GetEw((EntityType) i) = new EventWeight(
+                (p0Action[(int) ActionType.eat] + p1Action[(int) ActionType.eat]) / 2,
+                (p0Action[(int) ActionType.fight] + p1Action[(int) ActionType.fight]) / 2,
+                (p0Action[(int) ActionType.hide] + p1Action[(int) ActionType.hide]) / 2);
+            GetEw((EntityType)i).UpdateTotal();
+            
+        }
+    }
+
+    protected void MakeChoice<T>(T target) where T : Entity
+    {
+        if (energyCur > 0 && target != this)
+        {
+            ActOnTarget(target, GetTargEW(target).GetChoice(
+                manager.random.Next(GetTargEW(target).GetTotal())));
+        }
+    }
+
+    protected void ActOnTarget<T>(T target, ActionType action) where T : Entity
+    {
+        GetTargEW(target).RemoveWeight(ActionType.eat);
+        GetTargEW(target).RemoveWeight(ActionType.fight);
+        GetTargEW(target).RemoveWeight(ActionType.hide);
+        switch (action)
+        {
+            case ActionType.eat:
+                Eat(target);
+                break;
+            case ActionType.fight:
+                Fight(target);
+                break;
+            case ActionType.hide:
+                Hide(target);
+                break;
+            default: 
+                Hide(target);
+                break;
+        }
+        GetTargEW(target).AddWeight(action);
+        GetTargEW(target).AddWeight(action);
+    }
+    
+    protected virtual void Eat(Entity target)
     {
         
+    }
+
+    protected virtual void Fight(Entity target)
+    {
+        
+    }
+
+    protected virtual void Reproduce(Entity target)
+    {
+        
+    }
+
+    protected virtual void Hide(Entity target)
+    {
+        
+    }
+
+    public void ResetMoves()
+    {
+        numOfMoves = 2;
+    }
+
+    public void NightReproduce(Entity target)
+    {
+        Reproduce(target);
+    }
+
+    protected void Day()
+    {
+        if (manager.entities.Count > 1 && numOfMoves > 0)
+        {
+            ChangeEnergyLevel(50);
+            MakeChoice(manager.entities[manager.random.Next(manager.entities.Count)]);
+            numOfMoves--;
+        }
+    }
+    
+    public virtual void Update()
+    {
+        mustAct = numOfMoves > 0;
+        if (mustAct)
+        {
+            Day();
+        }
+
+        if (energyCur <= 0)
+        {
+            SetAlive(false);
+            causeOfDeath = "Starved";
+            manager.groundEnergy += GetEnergyMax()/2;
+        }
     }
     
 }

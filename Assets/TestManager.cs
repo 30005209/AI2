@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Cryptography;
+using TMPro;
 using UnityEditor;
+using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,10 +19,12 @@ public class TestManager : MonoBehaviour
     [SerializeField] private int deadFood = 0;
     [SerializeField] public int groundEnergy = 1000;
     [SerializeField] public List<Entity> entities;
+    [SerializeField] public List<Entity> eliteFood;
+    [SerializeField] public float eliteFoodAmount = 1000;
+    [SerializeField] public List<Entity> eliteHerb;
+    [SerializeField] private float updateTimer = 10;
     public System.Random random;
-    
-    
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +35,8 @@ public class TestManager : MonoBehaviour
         }
         for (int i = 0; i < numOfHerb; i++)
         {
+            Herbivore x;
+            
             entities.Add(gameObject.AddComponent<Herbivore>());
         }
     }
@@ -49,44 +56,60 @@ public class TestManager : MonoBehaviour
 
             Destroy(e);
         }
-
-        if (groundEnergy < 0) groundEnergy = 0;
-        if (groundEnergy > 10000) groundEnergy = 10000;
-
     }
 
     private void FixedUpdate()
     {
-        numOfHerb = 0;
-        numOfFood = 0;
-        int x = entities.Count;
+        if (groundEnergy < 0) groundEnergy = 0;
+        if (groundEnergy > 10000) groundEnergy = 10000;
 
-        groundEnergy += 10;
+        updateTimer -= Time.deltaTime;
 
-        foreach (Entity e in entities)
+        eliteFood.Clear();
+        
+        if (updateTimer < 0)
         {
-            e.Update();
-
-            if (e.GetEntType() == Entity.EntityType.herbivore)
-            {
-                numOfHerb++;
-            }
-
-            if(e.GetEntType() == Entity.EntityType.food)
-            {
-                numOfFood++;
-            }
-        }
-
-        if (entities.FindAll(e => e.MustAct()).Count == 0)
-        {
+            numOfFood = 0;
+            updateTimer = 5;
+            
             foreach (Entity e in entities)
             {
-                e.SetMustAct(true);
+                if (e.GetEntType() == Entity.EntityType.food)
+                {
+                    eliteFoodAmount = e.GetEnergyCur() * 0.8f;
+                    numOfFood++;
+                }
+            }
+
+            foreach (Entity e in entities)
+            {
+                if (e.GetEntType() == Entity.EntityType.food)
+                {
+                    if (e.GetEnergyCur() >= eliteFoodAmount)
+                    {
+                        eliteFood.Add(e);
+                    }
+                }
+                
+               e.ResetMoves();
+            }
+
+            foreach (Food f in eliteFood)
+            {
+                if (f.GetEnergyCur() > 500)
+                {
+                    groundEnergy -= 250;
+                    f.NightReproduce(eliteFood[random.Next(eliteFood.Count - 1)]);
+                    f.NightReproduce(eliteFood[random.Next(eliteFood.Count - 1)]);
+                }
             }
         }
 
+
+
+
     }
+
 
     public List<Entity> GetAllEnts()
     {
