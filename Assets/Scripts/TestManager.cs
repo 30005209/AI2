@@ -12,11 +12,11 @@ using System.IO;
 
 public class TestManager : MonoBehaviour
 {
-    [SerializeField] private int numOfHerb = 10;
+    [SerializeField] private int numOfHerb = 50;
     [SerializeField] private int deadHerb = 0;
     [SerializeField] public int numOfCarn = 10;
     [SerializeField] private int numOfOmni = 10;
-    [SerializeField] private int numOfFood = 100;
+    [SerializeField] private int numOfFood = 50;
     [SerializeField] private int deadFood = 0;
     [SerializeField] public int groundEnergy = 1000;
     [SerializeField] public List<Entity> entities;
@@ -76,6 +76,30 @@ public class TestManager : MonoBehaviour
         CreateText(pathHInfo);
     }
 
+    void ReintroducePopulation(Entity.EntityType type)
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            switch (type)
+            {
+                case Entity.EntityType.food:
+                    entities.Add(gameObject.AddComponent<Food>());
+                    break;
+                case Entity.EntityType.herbivore:
+                    entities.Add(gameObject.AddComponent<Herbivore>());
+                    break;
+                case Entity.EntityType.carnivore:
+                    break;
+                case Entity.EntityType.omnivore:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+            
+        }
+    }
+    
+    
     void Update()
     {
         List<Entity> toRemove = entities.FindAll(e => !e.IsAlive());
@@ -84,6 +108,7 @@ public class TestManager : MonoBehaviour
 
         foreach (Entity e in toRemove)
         {
+            print(e.GetEntType().ToString() + " - " + e.causeOfDeath);
             if (e.GetEntType() == Entity.EntityType.food) deadFood++;
             if (e.GetEntType() == Entity.EntityType.herbivore) deadHerb++;
 
@@ -166,7 +191,6 @@ public class TestManager : MonoBehaviour
 
                 while (e == null)
                 {
-
                     e = eliteFood[random.Next(eliteFood.Count)];
                 }
 
@@ -175,7 +199,8 @@ public class TestManager : MonoBehaviour
                 f.NightReproduce(e);
             }
         }
-            
+        
+
         // Elite Reproduction Herbivore
         foreach (Herbivore h in eliteHerb)
         {
@@ -187,7 +212,7 @@ public class TestManager : MonoBehaviour
                 {
                     e = eliteHerb[random.Next(eliteHerb.Count)];
                 }
-                
+
                 h.ChangeEnergyLevel(-250);
                 h.NightReproduce(e);
             }
@@ -236,6 +261,7 @@ public class TestManager : MonoBehaviour
             if (f.GetEnergyCur() > f.GetEnergyStart())
             {
                 groundEnergy -= 250;
+
                 f.NightReproduce(reproFood[random.Next(reproFood.Count - 1)]);
             }
         }
@@ -256,12 +282,11 @@ public class TestManager : MonoBehaviour
         foreach (Food f in weakFood)
         {
             f.SetAlive(false);
+            f.causeOfDeath = "Weak";
         }
         
-
         File.AppendAllText(pathFStat, "\nWeak (Pop: " + weakFood.Count.ToString() 
                                                       + ") Reaching " + weakFoodAmount.ToString().ToString() + "\n");
-
     }
 
     private void UpdateAverageStats()
@@ -312,8 +337,8 @@ public class TestManager : MonoBehaviour
             
             UpdateEntityInfo();
             UpdateAverageStats();
-            UpdateElites();
             UpdateWeak();
+            UpdateElites();
             ReproduceSuccessful();
 
             foreach (Entity e in entities)
@@ -324,6 +349,19 @@ public class TestManager : MonoBehaviour
             numOfHerb = 0;
             deadFood = 0;
             deadHerb = 0;
+
+            if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.food).Count < 50)
+            {
+                print("Reintroduce Food");
+                ReintroducePopulation(Entity.EntityType.food);
+            }
+        
+            //if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.herbivore).Count < 50)
+            //{
+            //    print("Reintroduce Herbivore");
+            //    ReintroducePopulation(Entity.EntityType.herbivore);
+            //}
+
         }
     }
     void CreateText(string givenPath)

@@ -6,12 +6,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.PlayerLoop;
 using Debug = UnityEngine.Debug;
 
-public class Herbivore : Entity
+public class Food : Entity
 {
-    public void Start()
+    private void Start()
     {
         manager = this.GetComponentInParent<TestManager>();
         
@@ -35,69 +35,50 @@ public class Herbivore : Entity
             manager.random.Next(10, 100));
         this.omnivore.UpdateTotal();
         
-        this.type = EntityType.herbivore;
-        this.damage = 20;
+        this.type = EntityType.food;
         this.energyMax = 1000;
         this.energyCur = 500;
         this.isAlive = true;
+        this.damage = 1;
     }
 
     protected override void Eat(Entity targetEntity)
     {
-        ChangeEnergyLevel(-100);
-        if (targetEntity.GetEntType() == EntityType.food)
+        if (manager.groundEnergy > 0)
         {
-            ChangeEnergyLevel(targetEntity.GetEnergyCur());
-            targetEntity.SetAlive(false);
-            targetEntity.ChangeEnergyLevel(-1000);
+            manager.groundEnergy -= 100;
+            ChangeEnergyLevel(200);
         }
     }
 
     protected override void Fight(Entity targetEntity)
     {
-        ChangeEnergyLevel(-100);
-        if (targetEntity.GetEntType() != EntityType.food)
-        {
-            ChangeEnergyLevel(-100);
-
-            targetEntity.SetAlive(manager.random.Next(100) < this.damage);
-
-            if (targetEntity.IsAlive()) targetEntity.MakeFight(this);
-        }
+        ChangeEnergyLevel(-400);
     }
 
     protected override void Reproduce(Entity targetEntity)
     {
-        if(targetEntity.GetEntType() == EntityType.herbivore)
+        if(targetEntity.GetEntType() == EntityType.food)
         {
-            if (this != null && targetEntity != null)
+            for (int i = 0; i < 5; i++)
             {
-            ChangeEnergyLevel(-250);
-            Herbivore child = gameObject.AddComponent<Herbivore>();
-            child.InheritInfo(this, (Herbivore) targetEntity);
-            manager.entities.Add(child);
-            child.energyCur = 500;
-            child.transform.parent = manager.transform;
+                ChangeEnergyLevel(-50);
+                Food child = gameObject.AddComponent<Food>();
+                child.InheritInfo((Food) this, (Food) targetEntity);
+                manager.entities.Add(child);
+                child.energyCur = 500;
+                child.transform.parent = manager.transform;
             }
         }
     }
 
     protected override void Hide(Entity targetEntity)
     {
-        if (targetEntity.GetEntType() != EntityType.food)
-        {
-            ChangeEnergyLevel(-100);
-
-            if (manager.random.Next(100) > damage)
-            {
-                targetEntity.MakeFight(this);
-            }
-        }
+        ChangeEnergyLevel(-400);
     }
 
     public override void Update()
     {
         base.Update();
     }
-
 }
