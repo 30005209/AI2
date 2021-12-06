@@ -92,7 +92,7 @@ public class Entity : MonoBehaviour
 
         public void AddWeight(ActionType givenType)
         {
-            actions[(int) givenType] += 10;
+            actions[(int) givenType] += 30;
             if (actions[(int) givenType] > 100) actions[(int) givenType] = 100;
             UpdateTotal();
         }
