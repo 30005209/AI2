@@ -261,7 +261,7 @@ public class TestManager : MonoBehaviour
         // Reproduction Successful Food
         foreach (Food f in reproFood)
         {
-            if (f.GetEnergyCur() > f.GetEnergyStart())
+            if (f.GetEnergyCur() > f.GetEnergyStart() && reproFood.Count < 800)
             {
                 groundEnergy -= 250;
 
@@ -272,7 +272,7 @@ public class TestManager : MonoBehaviour
         // Reproduction Successful Herb
         foreach (Herbivore h in reproHerb)
         {
-            if (h.GetEnergyCur() > h.GetEnergyStart())
+            if (h.GetEnergyCur() > h.GetEnergyStart() && reproHerb.Count < 800)
             {
                 groundEnergy -= 250;
                 h.NightReproduce(reproHerb[random.Next(reproHerb.Count - 1)]);

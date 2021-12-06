@@ -60,7 +60,15 @@ public class Herbivore : Entity
         ChangeEnergyLevel(-100);
         if (targetEntity.GetEntType() == EntityType.food)
         {
-            ChangeEnergyLevel(targetEntity.GetEnergyCur());
+            if (targetEntity.GetEnergyCur() > 500)
+            {
+                ChangeEnergyLevel(targetEntity.GetEnergyCur());
+            }
+            else
+            {
+                ChangeEnergyLevel(500);
+            }
+            
             targetEntity.SetAlive(false);
             targetEntity.causeOfDeath = "Eaten by Herbivore";
             targetEntity.ChangeEnergyLevel(-1000);
