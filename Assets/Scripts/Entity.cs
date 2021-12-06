@@ -285,26 +285,30 @@ public class Entity : MonoBehaviour
 
     protected void ActOnTarget<T>(T target, ActionType action) where T : Entity
     {
-        GetTargEW(target).RemoveWeight(ActionType.eat);
-        GetTargEW(target).RemoveWeight(ActionType.fight);
-        GetTargEW(target).RemoveWeight(ActionType.hide);
-        switch (action)
+        if (this != null && target != null)
         {
-            case ActionType.eat:
-                Eat(target);
-                break;
-            case ActionType.fight:
-                Fight(target);
-                break;
-            case ActionType.hide:
-                Hide(target);
-                break;
-            default: 
-                Hide(target);
-                break;
+            GetTargEW(target).RemoveWeight(ActionType.eat);
+            GetTargEW(target).RemoveWeight(ActionType.fight);
+            GetTargEW(target).RemoveWeight(ActionType.hide);
+            switch (action)
+            {
+                case ActionType.eat:
+                    Eat(target);
+                    break;
+                case ActionType.fight:
+                    Fight(target);
+                    break;
+                case ActionType.hide:
+                    Hide(target);
+                    break;
+                default:
+                    Hide(target);
+                    break;
+            }
+
+            GetTargEW(target).AddWeight(action);
+            GetTargEW(target).AddWeight(action);
         }
-        GetTargEW(target).AddWeight(action);
-        GetTargEW(target).AddWeight(action);
     }
     
     protected virtual void Eat(Entity target)
