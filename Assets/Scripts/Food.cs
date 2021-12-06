@@ -60,14 +60,17 @@ public class Food : Entity
     {
         if(targetEntity.GetEntType() == EntityType.food)
         {
-            for (int i = 0; i < 3; i++)
+            if (this != null && targetEntity as Food != null)
             {
-                ChangeEnergyLevel(-50);
-                Food child = gameObject.AddComponent<Food>();
-                child.InheritInfo((Food) this, (Food) targetEntity);
-                manager.entities.Add(child);
-                child.energyCur = 500;
-                child.transform.parent = manager.transform;
+                for (int i = 0; i < 10; i++)
+                {
+                    ChangeEnergyLevel(-50);
+                    Food child = gameObject.AddComponent<Food>();
+                    child.InheritInfo((Food) this, (Food) targetEntity);
+                    manager.entities.Add(child);
+                    child.energyCur = 500;
+                    child.transform.parent = manager.transform;
+                }
             }
         }
     }

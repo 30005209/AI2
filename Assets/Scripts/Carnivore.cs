@@ -48,7 +48,7 @@ public class Carnivore : Entity
         } while (omnivore.GetTotal() < 80);
 
         this.type = EntityType.carnivore;
-        this.damage = 80;
+        this.damage = 50;
         this.energyMax = 1000;
         this.energyCur = 500;
         this.isAlive = true;
@@ -85,7 +85,8 @@ public class Carnivore : Entity
     protected override void Fight(Entity targetEntity)
     {
         // If it's not food fight it
-        if (targetEntity.GetEntType() != EntityType.food)
+        if (targetEntity.GetEntType() != EntityType.food &&
+            targetEntity.GetEntType() != EntityType.carnivore)
         {
             ChangeEnergyLevel(-100);
 
@@ -94,7 +95,7 @@ public class Carnivore : Entity
             if (!targetEntity.IsAlive())
             {
                 Eat(targetEntity);
-                targetEntity.causeOfDeath = "Killed by Carnivore";
+                targetEntity.causeOfDeath = "Killed and Eaten by Carnivore";
             }
         }
         else
@@ -105,11 +106,11 @@ public class Carnivore : Entity
 
     protected override void Reproduce(Entity targetEntity)
     {
-        if(targetEntity.GetEntType() == EntityType.herbivore)
+        if(targetEntity.GetEntType() == EntityType.carnivore)
         {
-            if (this != null && targetEntity != null)
+            if (this != null && targetEntity as Carnivore != null)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     ChangeEnergyLevel(-50);
                     Carnivore child = gameObject.AddComponent<Carnivore>();
@@ -124,7 +125,8 @@ public class Carnivore : Entity
 
     protected override void Hide(Entity targetEntity)
     {
-        if (targetEntity.GetEntType() != EntityType.food)
+        if (targetEntity.GetEntType() != EntityType.food ||
+            targetEntity.GetEntType() != EntityType.carnivore)
         {
             ChangeEnergyLevel(-100);
             if (manager.random.Next(100) < damage)
@@ -142,6 +144,7 @@ public class Carnivore : Entity
     public override void Update()
     {
         base.Update();
+        if (!isAlive) print(causeOfDeath);
     }
 
 }
