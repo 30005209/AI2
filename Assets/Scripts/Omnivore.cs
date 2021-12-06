@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
 
-public class Herbivore : Entity
+public class Omnivore : Entity
 {
     public void Start()
     {
@@ -47,7 +47,7 @@ public class Herbivore : Entity
             this.omnivore.UpdateTotal();
         } while (omnivore.GetTotal() < 80);
 
-        this.type = EntityType.herbivore;
+        this.type = EntityType.omnivore;
         this.damage = 10;
         this.energyMax = 1000;
         this.energyCur = 500;
@@ -71,25 +71,45 @@ public class Herbivore : Entity
             targetEntity.causeOfDeath = "Eaten by Herbivore";
             targetEntity.ChangeEnergyLevel(-1000);
         }
-        else if (targetEntity.GetEntType() == EntityType.herbivore)
-        {
-            ChangeEnergyLevel(-300);
-        }
         else
         {
-            targetEntity.MakeFight(this);
+            if (targetEntity.IsAlive())
+            {
+                Fight(targetEntity);
+            }
+
+            if (!targetEntity.IsAlive())
+            {
+                if (targetEntity.GetEnergyCur() > 500)
+                {
+                    ChangeEnergyLevel(targetEntity.GetEnergyCur());
+                }
+                else
+                {
+                    ChangeEnergyLevel(500);
+                }
+            }
         }
     }
 
     protected override void Fight(Entity targetEntity)
     {
-        // If it's not food fight it - triggering a fight
         if (targetEntity.GetEntType() == EntityType.food)
         {
-            ChangeEnergyLevel(-300);
+            if (targetEntity.GetEnergyCur() > 500)
+            {
+                ChangeEnergyLevel(targetEntity.GetEnergyCur());
+            }
+            else
+            {
+                ChangeEnergyLevel(500);
+            }
+            
             targetEntity.SetAlive(false);
+            targetEntity.causeOfDeath = "Eaten by Omnivore";
+            targetEntity.ChangeEnergyLevel(-1000);
         }
-        else if(targetEntity.GetEntType() != EntityType.herbivore)
+        else
         {
             ChangeEnergyLevel(-100);
 
@@ -97,26 +117,23 @@ public class Herbivore : Entity
 
             if (!targetEntity.IsAlive())
             {
-                targetEntity.causeOfDeath = "Killed by Herbivore";
+                Eat(targetEntity);
+                targetEntity.causeOfDeath = "Killed and Eaten by Omnivore";
             }
-        }
-        else
-        {
-            ChangeEnergyLevel(-300);
         }
     }
 
     protected override void Reproduce(Entity targetEntity)
     {
-        if(targetEntity.GetEntType() == EntityType.herbivore)
+        if(targetEntity.GetEntType() == EntityType.omnivore)
         {
-            if (this != null && targetEntity as Herbivore != null)
+            if (this != null && targetEntity as Omnivore != null)
             {
                 for (int i = 0; i < 4; i++)
                 {
                     ChangeEnergyLevel(-50);
-                    Herbivore child = gameObject.AddComponent<Herbivore>();
-                    child.InheritInfo(this, (Herbivore) targetEntity);
+                    Omnivore child = gameObject.AddComponent<Omnivore>();
+                    child.InheritInfo(this, (Omnivore) targetEntity);
                     manager.entities.Add(child);
                     child.energyCur = 500;
                     child.transform.parent = manager.transform;

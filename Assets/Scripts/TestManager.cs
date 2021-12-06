@@ -9,14 +9,12 @@ using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.IO;
+using System.Linq;
+using UnityEngine.SubsystemsImplementation;
 
 public class TestManager : MonoBehaviour
 {
     [SerializeField] private float updateTimer = 0;
-    [SerializeField] private int herbivoreIntroCount = 0;
-    [SerializeField] private bool herbivoreIntro = false;
-    [SerializeField] private int carnivoreIntroCount = 0;
-    [SerializeField] private bool carnivoreIntro = false;
     [SerializeField] private int numOfFood = 00;
     [SerializeField] private int numOfHerb = 0;
     [SerializeField] public int numOfCarn = 0;
@@ -24,6 +22,7 @@ public class TestManager : MonoBehaviour
     [SerializeField] private int deadFood = 0;
     [SerializeField] private int deadHerb = 0;
     [SerializeField] private int deadCarn = 0;
+    [SerializeField] private int deadOmni = 0;
     [SerializeField] public int groundEnergy = 1000;
     [SerializeField] public List<Entity> entities;
     
@@ -47,6 +46,13 @@ public class TestManager : MonoBehaviour
     [SerializeField] public float eliteCarnAmount = 1000;
     [SerializeField] public float weakCarnAmount = 100;
     [SerializeField] public List<Entity> reproCarn;
+    
+    // Omnivore
+    [SerializeField] public List<Entity> eliteOmni;
+    [SerializeField] public List<Entity> weakOmni;
+    [SerializeField] public float eliteOmniAmount = 1000;
+    [SerializeField] public float weakOmniAmount = 100;
+    [SerializeField] public List<Entity> reproOmni;
 
     public System.Random random;
     private string pathFInfo;
@@ -55,22 +61,33 @@ public class TestManager : MonoBehaviour
     private string pathHStat;
     private string pathCInfo;
     private string pathCStat;
+    private string pathOInfo;
+    private string pathOStat;
     
     int averageFood = 0;
     int averageHerb = 0;
     int averageCarn = 0;
+    int averageOmni = 0;
     
     Entity.EventWeight foodEWfood = new Entity.EventWeight(0, 0, 0);
     Entity.EventWeight foodEWHerb = new Entity.EventWeight(0, 0, 0);
     Entity.EventWeight foodEWCarn = new Entity.EventWeight(0, 0, 0);
+    Entity.EventWeight foodEWOmni = new Entity.EventWeight(0, 0, 0);
     
     Entity.EventWeight herbEWfood = new Entity.EventWeight(0, 0, 0);
     Entity.EventWeight herbEWHerb = new Entity.EventWeight(0, 0, 0);
     Entity.EventWeight herbEWCarn = new Entity.EventWeight(0, 0, 0);
+    Entity.EventWeight herbEWOmni = new Entity.EventWeight(0, 0, 0);
     
     Entity.EventWeight carnEWfood = new Entity.EventWeight(0, 0, 0);
     Entity.EventWeight carnEWHerb = new Entity.EventWeight(0, 0, 0);
     Entity.EventWeight carnEWCarn = new Entity.EventWeight(0, 0, 0);
+    Entity.EventWeight carnEWOmni = new Entity.EventWeight(0, 0, 0);
+    
+    Entity.EventWeight omniEWfood = new Entity.EventWeight(0, 0, 0);
+    Entity.EventWeight omniEWHerb = new Entity.EventWeight(0, 0, 0);
+    Entity.EventWeight omniEWCarn = new Entity.EventWeight(0, 0, 0);
+    Entity.EventWeight omniEWOmni = new Entity.EventWeight(0, 0, 0);
 
     
     
@@ -85,44 +102,54 @@ public class TestManager : MonoBehaviour
         pathHInfo = Application.dataPath + "/hStatInfo.txt";
         pathCStat = Application.dataPath + "/cSurvivalInfo.txt";
         pathCInfo = Application.dataPath + "/cStatInfo.txt";
+        pathOStat = Application.dataPath + "/oSurvivalInfo.txt";
+        pathOInfo = Application.dataPath + "/oStatInfo.txt";
 
-        CreateText(pathFInfo);
+        //CreateText(pathFInfo);
+        //CreateText(pathHInfo);
+        //CreateText(pathCInfo);
+        //CreateText(pathOInfo);
+        
         CreateText(pathFStat);
         CreateText(pathHStat);
-        CreateText(pathHInfo);
         CreateText(pathCStat);
-        CreateText(pathCInfo);
+        CreateText(pathOStat);
     }
 
     void ReintroducePopulation(Entity.EntityType type)
     {
-        int amountToAdd = 0;
-
-        if (type == Entity.EntityType.food) amountToAdd = 100;
-        if (type == Entity.EntityType.herbivore) amountToAdd = 50;
-        if (type == Entity.EntityType.carnivore) amountToAdd = 20;
-        if (type == Entity.EntityType.herbivore) amountToAdd = 10;
-        
-        for (int i = 0; i < amountToAdd; i++)
+        if (entities.FindAll(e => e.GetEntType() == type).Count == 0)
         {
-            switch (type)
+            for (int i = 0; i < 50; i++)
             {
-                case Entity.EntityType.food:
-                    entities.Add(gameObject.AddComponent<Food>());
-                    break;
-                case Entity.EntityType.herbivore:
-                    entities.Add(gameObject.AddComponent<Herbivore>());
-                    break;
-                case Entity.EntityType.carnivore:
-                    entities.Add(gameObject.AddComponent<Carnivore>());
-                    break;
-                case Entity.EntityType.omnivore:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+                switch (type)
+                {
+                    case Entity.EntityType.food:
+                        entities.Add(gameObject.AddComponent<Food>());
+                        break;
+                    case Entity.EntityType.herbivore:
+                        entities.Add(gameObject.AddComponent<Herbivore>());
+                        break;
+                    case Entity.EntityType.carnivore:
+                        entities.Add(gameObject.AddComponent<Carnivore>());
+                        break;
+                    case Entity.EntityType.omnivore:
+                        entities.Add(gameObject.AddComponent<Omnivore>());
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
+                }
             
+            }
         }
+        else
+        {
+            ReproSuccessfulType(type);
+            UpdateElites();
+            EliteRepro(type);
+        }
+        
+        
     }
     
     
@@ -134,10 +161,11 @@ public class TestManager : MonoBehaviour
 
         foreach (Entity e in toRemove)
         {
-            print(e.GetEntType().ToString() + " - " + e.causeOfDeath);
+            //print(e.GetEntType().ToString() + " - " + e.causeOfDeath);
             if (e.GetEntType() == Entity.EntityType.food) deadFood++;
             if (e.GetEntType() == Entity.EntityType.herbivore) deadHerb++;
             if (e.GetEntType() == Entity.EntityType.carnivore) deadCarn++;
+            if (e.GetEntType() == Entity.EntityType.omnivore) deadOmni++;
 
             Destroy(e);
         }
@@ -145,6 +173,7 @@ public class TestManager : MonoBehaviour
         numOfFood = 0;
         numOfHerb = 0;
         numOfCarn = 0;
+        numOfOmni = 0;
         
         foreach (Entity e in entities)
         {
@@ -160,6 +189,7 @@ public class TestManager : MonoBehaviour
                     numOfCarn++;
                     break;
                 case Entity.EntityType.omnivore:
+                    numOfOmni++;
                     break;
             }
             
@@ -175,19 +205,21 @@ public class TestManager : MonoBehaviour
         eliteFood.Clear();
         eliteHerb.Clear();
         eliteCarn.Clear();
+        eliteOmni.Clear();
         
         reproFood.Clear();
         reproHerb.Clear();
         reproCarn.Clear();
+        reproOmni.Clear();
         
         weakFood.Clear();
         weakHerb.Clear();
         weakCarn.Clear();
+        weakOmni.Clear();
     }
 
     private void UpdateElites()
     {
-        // Get Elites
         foreach (Entity e in entities)
         {
             if (e.GetEntType() == Entity.EntityType.food)
@@ -226,73 +258,136 @@ public class TestManager : MonoBehaviour
                 }
             }
                 
+            if (e.GetEntType() == Entity.EntityType.omnivore)
+            {
+                if (e.GetEnergyCur() >= eliteOmniAmount && e.IsAlive())
+                {
+                    eliteOmni.Add(e);
+                }
+                else if (e.GetEnergyCur() <= weakOmniAmount && e.IsAlive())
+                {
+                    weakOmni.Add(e);
+                }
+            }
 
             //File.AppendAllText(pathFStat, "\nElite (Pop: " + eliteFood.Count.ToString()
             //                                               + ") Reaching " + eliteFoodAmount.ToString().ToString());
         }
-            
-        // Elite Reproduction Food
-        if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.food).Count < 400)
+    }
+
+    private void EliteRepro(Entity.EntityType type)
+    {
+        int count;
+        if (entities.FindAll(e => e.GetEntType() == type) != null)
         {
-            foreach (Food f in eliteFood)
+            count = entities.FindAll(e => e.GetEntType() == type).Count;
+            UpdateElites();
+
+            switch (type)
             {
-                if (f.GetEnergyCur() > 500 & this != null)
-                {
-                    Entity E = null;
 
-                    while (E == null)
+                case Entity.EntityType.food:
+                    // Elite Reproduction Food
+
+                    if (count < 600)
                     {
-                        E = eliteFood[random.Next(eliteFood.Count)];
+                        foreach (var f in eliteFood)
+                        {
+                            if (f is Food && f.GetEnergyCur() > 500 & this != null)
+                            {
+                                Entity E = null;
+
+                                while (E == null)
+                                {
+                                    E = eliteFood[random.Next(eliteFood.Count)];
+                                }
+
+                                groundEnergy -= 250;
+
+                                f.NightReproduce(E);
+                            }
+                        }
                     }
+                    break;
 
-                    groundEnergy -= 250;
+                case Entity.EntityType.herbivore:
+                    // Elite Reproduction Herbivore
+                    if (count < 200)
+                    {
+                        foreach (var h in eliteHerb)
+                        {
+                            if (h is Herbivore && h.GetEnergyCur() > 500 && this != null)
+                            {
+                                Entity E = null;
 
-                    f.NightReproduce(E);
-                }
+                                while (E == null)
+                                {
+                                    E = eliteHerb[random.Next(eliteHerb.Count)];
+                                }
+
+                                h.ChangeEnergyLevel(-250);
+                                h.NightReproduce(E);
+                            }
+                        }
+                    }
+                    break;
+
+                case Entity.EntityType.carnivore:
+                    // Elite Reproduction Carnivore
+                    if (count < 200)
+                    {
+                        foreach (var c in eliteCarn)
+                        {
+                            if (c is Carnivore && c.GetEnergyCur() > 500 && this != null)
+                            {
+                                Entity E = null;
+
+                                while (E == null)
+                                {
+                                    E = eliteCarn[random.Next(eliteCarn.Count)];
+                                }
+
+                                c.ChangeEnergyLevel(-250);
+                                c.NightReproduce(E);
+                            }
+                        }
+                    }
+                    break;
+
+                case Entity.EntityType.omnivore:
+                    // Elite Reproduction Omnivore
+                    if (count < 80)
+                    {
+                        foreach (var o in eliteOmni)
+                        {
+                            if (o is Omnivore && o.GetEnergyCur() > 500 && this != null)
+                            {
+                                Entity E = null;
+
+                                while (E == null)
+                                {
+                                    E = eliteOmni[random.Next(eliteOmni.Count)];
+                                }
+
+                                o.ChangeEnergyLevel(-250);
+                                o.NightReproduce(E);
+                            }
+                        }
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
-
-
-        // Elite Reproduction Herbivore
-        if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.herbivore).Count < 400)
-        {
-            foreach (Herbivore h in eliteHerb)
-            {
-                if (h.GetEnergyCur() > 500 && this != null)
-                {
-                    Entity E = null;
-
-                    while (E == null)
-                    {
-                        E = eliteHerb[random.Next(eliteHerb.Count)];
-                    }
-
-                    h.ChangeEnergyLevel(-250);
-                    h.NightReproduce(E);
-                }
-            }
-        }
-
-        // Elite Reproduction Herbivore
-        if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.carnivore).Count < 400)
-        {
-            foreach (Carnivore c in eliteCarn)
-            {
-                if (c.GetEnergyCur() > 500 && this != null)
-                {
-                    Entity E = null;
-
-                    while (E == null)
-                    {
-                        E = eliteCarn[random.Next(eliteCarn.Count)];
-                    }
-
-                    c.ChangeEnergyLevel(-250);
-                    c.NightReproduce(E);
-                }
-            }
-        }
-
+    }
+    
+    private void EliteReproAll()
+    {
+        EliteRepro(Entity.EntityType.food);
+        EliteRepro(Entity.EntityType.herbivore);
+        EliteRepro(Entity.EntityType.carnivore);
+        EliteRepro(Entity.EntityType.omnivore);
     }
 
     private void UpdateEntityInfo()
@@ -301,26 +396,34 @@ public class TestManager : MonoBehaviour
         {
             if (e.GetEntType() == Entity.EntityType.food)
             {
-                eliteFoodAmount = e.GetEnergyCur() * 0.8f;
-                weakFoodAmount = e.GetEnergyCur() * 0.2f;
+                eliteFoodAmount = e.GetEnergyCur() * 0.7f;
+                weakFoodAmount = e.GetEnergyCur() * 0.3f;
                 averageFood += e.GetEnergyCur();
                 numOfFood++;
             }
 
             if (e.GetEntType() == Entity.EntityType.herbivore)
             {
-                eliteHerbAmount = e.GetEnergyCur() * 0.8f;
-                weakHerbAmount = e.GetEnergyCur() * 0.2f;
+                eliteHerbAmount = e.GetEnergyCur() * 0.7f;
+                weakHerbAmount = e.GetEnergyCur() * 0.3f;
                 averageHerb += e.GetEnergyCur();
                 numOfHerb++;
             }
             
             if (e.GetEntType() == Entity.EntityType.carnivore)
             {
-                eliteCarnAmount = e.GetEnergyCur() * 0.8f;
-                weakCarnAmount = e.GetEnergyCur() * 0.2f;
+                eliteCarnAmount = e.GetEnergyCur() * 0.7f;
+                weakCarnAmount = e.GetEnergyCur() * 0.3f;
                 averageCarn += e.GetEnergyCur();
                 numOfCarn++;
+            }
+            
+            if (e.GetEntType() == Entity.EntityType.omnivore)
+            {
+                eliteOmniAmount = e.GetEnergyCur() * 0.7f;
+                weakOmniAmount = e.GetEnergyCur() * 0.3f;
+                averageOmni += e.GetEnergyCur();
+                numOfOmni++;
             }
             
         }
@@ -328,6 +431,7 @@ public class TestManager : MonoBehaviour
         if (numOfFood != 0) { averageFood /= numOfFood; }
         if (numOfHerb != 0) { averageHerb /= numOfHerb; }
         if (numOfCarn != 0) { averageCarn /= numOfCarn; }
+        if (numOfOmni != 0) { averageOmni /= numOfOmni; }
 
 
        //File.AppendAllText(pathFStat, "\nNewGeneration (Died:" + deadFood.ToString() + ")(New Total Pop: "
@@ -340,37 +444,67 @@ public class TestManager : MonoBehaviour
 
     private void ReproduceSuccessful()
     {
-        // Reproduction Successful Food
-        foreach (Food f in reproFood)
-        {
-            if (f.GetEnergyCur() > f.GetEnergyStart() && reproFood.Count < 300)
-            {
-                groundEnergy -= 250;
+        ReproSuccessfulType(Entity.EntityType.food);
+        ReproSuccessfulType(Entity.EntityType.herbivore);
+        ReproSuccessfulType(Entity.EntityType.carnivore);
+        ReproSuccessfulType(Entity.EntityType.omnivore);
+    }
 
-                f.NightReproduce(reproFood[random.Next(reproFood.Count - 1)]);
-            }
-        }
+    void ReproSuccessfulType(Entity.EntityType type)
+    {
+        switch (type)
+        {
+            case Entity.EntityType.food:
+                // Reproduction Successful Food
+                foreach (Food f in reproFood)
+                {
+                    if (f.GetEnergyCur() > f.GetEnergyStart() && reproFood.Count < 400)
+                    {
+                        groundEnergy -= 250;
 
-        // Reproduction Successful Herb
-        foreach (Herbivore h in reproHerb)
-        {
-            if (h.GetEnergyCur() > h.GetEnergyStart() && reproHerb.Count < 200)
-            {
-                groundEnergy -= 250;
-                h.NightReproduce(reproHerb[random.Next(reproHerb.Count - 1)]);
-            }
+                        f.NightReproduce(reproFood[random.Next(reproFood.Count - 1)]);
+                    }
+                }
+                break;
+            
+            case Entity.EntityType.herbivore:
+                // Reproduction Successful Herb
+                foreach (Herbivore h in reproHerb)
+                {
+                    if (h.GetEnergyCur() > h.GetEnergyStart() && reproHerb.Count < 100)
+                    {
+                        groundEnergy -= 250;
+                        h.NightReproduce(reproHerb[random.Next(reproHerb.Count - 1)]);
+                    }
+                }
+                break;
+            
+            case Entity.EntityType.carnivore:
+                // Reproduction Successful Carn
+                foreach (Carnivore c in reproHerb)
+                {
+                    if (c.GetEnergyCur() > c.GetEnergyStart() && reproCarn.Count < 100)
+                    {
+                        groundEnergy -= 250;
+                        c.NightReproduce(reproCarn[random.Next(reproCarn.Count - 1)]);
+                    }
+                }
+                break;
+            
+            case Entity.EntityType.omnivore:
+                // Reproduction Successful Carn
+                foreach (Omnivore o in reproOmni)
+                {
+                    if (o.GetEnergyCur() > o.GetEnergyStart() && reproOmni.Count < 20)
+                    {
+                        groundEnergy -= 250;
+                        o.NightReproduce(reproOmni[random.Next(reproOmni.Count - 1)]);
+                    }
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
-        
-        // Reproduction Successful Carn
-        foreach (Carnivore c in reproHerb)
-        {
-            if (c.GetEnergyCur() > c.GetEnergyStart() && reproCarn.Count < 200)
-            {
-                groundEnergy -= 250;
-                c.NightReproduce(reproCarn[random.Next(reproCarn.Count - 1)]);
-            }
-        }
-        
     }
 
     private void UpdateWeak()
@@ -385,6 +519,18 @@ public class TestManager : MonoBehaviour
         {
             h.SetAlive(false);
             h.causeOfDeath = "Weak";
+        }
+
+        foreach (Carnivore c in weakCarn)
+        {
+            c.SetAlive(false);
+            c.causeOfDeath = "Weak";
+        }
+        
+        foreach (Omnivore o in weakOmni)
+        {
+            o.SetAlive(false);
+            o.causeOfDeath = "Weak";
         }
         
         
@@ -401,13 +547,15 @@ public class TestManager : MonoBehaviour
                 foodEWfood += e.GetEW(Entity.EntityType.food);
                 foodEWHerb += e.GetEW(Entity.EntityType.herbivore);
                 foodEWCarn += e.GetEW(Entity.EntityType.carnivore);
+                foodEWOmni += e.GetEW(Entity.EntityType.omnivore);
             }
                 
             if( e.GetEntType() == Entity.EntityType.herbivore)
             {
                 herbEWfood += e.GetEW(Entity.EntityType.food);
                 herbEWHerb += e.GetEW(Entity.EntityType.herbivore);
-                herbEWCarn += e.GetEW(Entity.EntityType.herbivore);
+                herbEWCarn += e.GetEW(Entity.EntityType.carnivore);
+                herbEWOmni += e.GetEW(Entity.EntityType.omnivore);
             }
             
             if( e.GetEntType() == Entity.EntityType.carnivore)
@@ -415,6 +563,15 @@ public class TestManager : MonoBehaviour
                 carnEWfood += e.GetEW(Entity.EntityType.food);
                 carnEWHerb += e.GetEW(Entity.EntityType.herbivore);
                 carnEWCarn += e.GetEW(Entity.EntityType.carnivore);
+                carnEWOmni += e.GetEW(Entity.EntityType.omnivore);
+            }
+            
+            if( e.GetEntType() == Entity.EntityType.omnivore)
+            {
+                omniEWfood += e.GetEW(Entity.EntityType.food);
+                omniEWHerb += e.GetEW(Entity.EntityType.herbivore);
+                omniEWCarn += e.GetEW(Entity.EntityType.carnivore);
+                omniEWOmni += e.GetEW(Entity.EntityType.omnivore);
             }
             
         }
@@ -424,6 +581,7 @@ public class TestManager : MonoBehaviour
             foodEWfood /= numOfFood;
             foodEWHerb /= numOfFood;
             foodEWCarn /= numOfFood;
+            foodEWOmni /= numOfFood;
         }
 
         if (numOfHerb != 0)
@@ -431,6 +589,7 @@ public class TestManager : MonoBehaviour
             herbEWfood /= numOfHerb;
             herbEWHerb /= numOfHerb;
             herbEWCarn /= numOfHerb;
+            herbEWOmni /= numOfHerb;
         }
         
         if (numOfCarn != 0)
@@ -438,20 +597,37 @@ public class TestManager : MonoBehaviour
             carnEWfood /= numOfCarn;
             carnEWHerb /= numOfCarn;
             carnEWCarn /= numOfCarn;
+            carnEWOmni /= numOfCarn;
+        }
+        
+        if (numOfOmni != 0)
+        {
+            omniEWfood /= numOfOmni;
+            omniEWHerb /= numOfOmni;
+            omniEWCarn /= numOfOmni;
+            omniEWOmni /= numOfOmni;
         }
         
 
-        File.AppendAllText(pathFInfo, $"Average Food Stats (Food): {foodEWfood.OutputEWStats()}");
-        File.AppendAllText(pathFInfo, $"Average Food Stats (Herb): {foodEWHerb.OutputEWStats()}");
-        File.AppendAllText(pathFInfo, $"Average Food Stats (Carn): {foodEWCarn.OutputEWStats()}\n");
+        File.AppendAllText(pathFStat, $"Average Food Stats (Food): {foodEWfood.OutputEWStats()}");
+        File.AppendAllText(pathFStat, $"Average Food Stats (Herb): {foodEWHerb.OutputEWStats()}");
+        File.AppendAllText(pathFStat, $"Average Food Stats (Carn): {foodEWCarn.OutputEWStats()}");
+        File.AppendAllText(pathFStat, $"Average Food Stats (Omni): {foodEWOmni.OutputEWStats()}\n");
         
         File.AppendAllText(pathHStat, $"Average Herbivore Stats (Food): {herbEWfood.OutputEWStats()}");
         File.AppendAllText(pathHStat, $"Average Herbivore Stats (Herb): {herbEWHerb.OutputEWStats()}");
-        File.AppendAllText(pathHStat, $"Average Herbivore Stats (Carn): {herbEWCarn.OutputEWStats()}\n");
+        File.AppendAllText(pathHStat, $"Average Herbivore Stats (Carn): {herbEWCarn.OutputEWStats()}");
+        File.AppendAllText(pathHStat, $"Average Herbivore Stats (Omni): {herbEWOmni.OutputEWStats()}\n");
         
-        File.AppendAllText(pathCStat, $"Average Herbivore Stats (Food): {carnEWfood.OutputEWStats()}");
-        File.AppendAllText(pathCStat, $"Average Herbivore Stats (Herb): {carnEWHerb.OutputEWStats()}");
-        File.AppendAllText(pathCStat, $"Average Herbivore Stats (Carn): {carnEWCarn.OutputEWStats()}\n");
+        File.AppendAllText(pathCStat, $"Average Carnivore Stats (Food): {carnEWfood.OutputEWStats()}");
+        File.AppendAllText(pathCStat, $"Average Carnivore Stats (Herb): {carnEWHerb.OutputEWStats()}");
+        File.AppendAllText(pathCStat, $"Average Carnivore Stats (Carn): {carnEWCarn.OutputEWStats()}");
+        File.AppendAllText(pathCStat, $"Average Carnivore Stats (Omni): {carnEWOmni.OutputEWStats()}\n");
+        
+        File.AppendAllText(pathOStat, $"Average Carnivore Stats (Food): {omniEWfood.OutputEWStats()}");
+        File.AppendAllText(pathOStat, $"Average Carnivore Stats (Herb): {omniEWHerb.OutputEWStats()}");
+        File.AppendAllText(pathOStat, $"Average Carnivore Stats (Carn): {omniEWCarn.OutputEWStats()}");
+        File.AppendAllText(pathOStat, $"Average Carnivore Stats (Omni): {omniEWOmni.OutputEWStats()}\n");
     }
     
     private void FixedUpdate()
@@ -469,72 +645,60 @@ public class TestManager : MonoBehaviour
             UpdateAverageStats();
             UpdateWeak();
             UpdateElites();
+            EliteReproAll();
             ReproduceSuccessful();
 
             foreach (Entity e in entities)
             {
                 e.ResetMoves();   
             }
-            numOfFood = 0;
-            numOfHerb = 0;
-            deadFood = 0;
-            deadHerb = 0;
 
-            if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.food).Count < 50)
+            // If less than 100 bits off food - Reintroduce food
+            if (numOfFood < 100)
             {
                 print("Introduce Food");
                 ReintroducePopulation(Entity.EntityType.food);
-                File.AppendAllText(pathFStat, "Reintroduction of Food\n");
+                File.AppendAllText(pathFStat, "\nReintroduction of Food\n");
             }
 
-            if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.food).Count > 200)
+            // If there is more than 200 food and  more food than herbivores - Reintroduce herbivores
+            if (numOfFood > 500 && numOfFood > numOfHerb)
             {
-                herbivoreIntroCount++;
-            }
-            else
-            {
-                herbivoreIntroCount = 0;
-                herbivoreIntro = false;
-            }
-
-            if (herbivoreIntroCount > 3) herbivoreIntro = true;
-            
-
-            if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.herbivore).Count < 50
-                    && herbivoreIntro)
-            {
-                print("Introduce Herbivore");
+                print("Introduce Herbivores");
                 ReintroducePopulation(Entity.EntityType.herbivore);
-                File.AppendAllText(pathHStat, "Reintroduction of Herbivore\n");
-                
+                File.AppendAllText(pathHStat, "\nReintroduction of Herbivores\n");
             }
             
-            if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.herbivore).Count > 100)
+            // If there is more than 100 herbivores and more herbivores than carnivores - Reintroduce carnivores
+            if (numOfHerb > 400 && numOfHerb > numOfCarn)
             {
-                carnivoreIntroCount++;
-            }
-            else
-            {
-                carnivoreIntroCount = 0;
-                carnivoreIntro = false;
-            }
-
-            if (carnivoreIntroCount > 3) carnivoreIntro = true;
-
-            if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.carnivore).Count < 20
-                && carnivoreIntro)
-            {
-                print("Introduce Carnivore");
+                print("Introduce Carnivores");
                 ReintroducePopulation(Entity.EntityType.carnivore);
-                File.AppendAllText(pathCStat, "Reintroduction of Carnivore\n");
+                File.AppendAllText(pathCStat, "\nReintroduction of Carnivores\n");
             }
             
+            // If there is more than 50 carnivores and more than 50 and more than 50 food and more
+            // (carnivores + herbivores + food ) /2 than omnivores - Reintroduce omnivores
+            if (numOfFood > 100 && numOfHerb > 100 && numOfCarn > 100 && 
+                (numOfFood + numOfHerb + numOfCarn)/2 > numOfOmni)
+            {
+                print("Introduce Omnivores");
+                ReintroducePopulation(Entity.EntityType.omnivore);
+                File.AppendAllText(pathOStat, "\nReintroduction of Omnivores\n");
+            }
+
+            numOfFood = 0;
+            numOfHerb = 0;
+            numOfCarn = 0;
+            numOfOmni = 0;
+            deadFood = 0;
+            deadHerb = 0;
+            deadCarn = 0;
+            deadOmni = 0;
         }
     }
     void CreateText(string givenPath)
     {
-        givenPath = givenPath;
-
         if (!File.Exists(givenPath))
         {
             File.WriteAllText(givenPath, "Test:\n\n");

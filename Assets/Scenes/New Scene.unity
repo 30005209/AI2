@@ -153,6 +153,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateTimer: 10
+  herbivoreIntroCount: 0
+  herbivoreIntro: 0
+  carnivoreIntroCount: 0
+  carnivoreIntro: 0
+  omnivoreIntroCount: 0
+  omnivoreIntro: 0
   numOfFood: 0
   numOfHerb: 0
   numOfCarn: 0
@@ -160,10 +166,29 @@ MonoBehaviour:
   deadFood: 0
   deadHerb: 0
   deadCarn: 0
+  deadOmni: 0
   groundEnergy: 1000
   entities: []
-  CarnivoreIntroCount: 0
-  CarnivoreIntro: 0
+  eliteFood: []
+  weakFood: []
+  eliteFoodAmount: 1000
+  weakFoodAmount: 100
+  reproFood: []
+  eliteHerb: []
+  weakHerb: []
+  eliteHerbAmount: 1000
+  weakHerbAmount: 100
+  reproHerb: []
+  eliteCarn: []
+  weakCarn: []
+  eliteCarnAmount: 1000
+  weakCarnAmount: 100
+  reproCarn: []
+  eliteOmni: []
+  weakOmni: []
+  eliteOmniAmount: 1000
+  weakOmniAmount: 100
+  reproOmni: []
 --- !u!4 &85808078
 Transform:
   m_ObjectHideFlags: 0
