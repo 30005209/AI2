@@ -60,7 +60,15 @@ public class Herbivore : Entity
         ChangeEnergyLevel(-100);
         if (targetEntity.GetEntType() == EntityType.food)
         {
-            ChangeEnergyLevel(targetEntity.GetEnergyCur());
+            if (targetEntity.GetEnergyCur() > 500)
+            {
+                ChangeEnergyLevel(targetEntity.GetEnergyCur());
+            }
+            else
+            {
+                ChangeEnergyLevel(500);
+            }
+            
             targetEntity.SetAlive(false);
             targetEntity.causeOfDeath = "Eaten by Herbivore";
             targetEntity.ChangeEnergyLevel(-1000);
@@ -83,6 +91,10 @@ public class Herbivore : Entity
                 targetEntity.causeOfDeath = "Killed by Herbivore";
             }
         }
+        else
+        {
+            ChangeEnergyLevel(-200);
+        }
     }
 
     protected override void Reproduce(Entity targetEntity)
@@ -91,7 +103,7 @@ public class Herbivore : Entity
         {
             if (this != null && targetEntity != null)
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     ChangeEnergyLevel(-50);
                     Herbivore child = gameObject.AddComponent<Herbivore>();
@@ -114,6 +126,10 @@ public class Herbivore : Entity
             {
                 targetEntity.MakeFight(this);
             }
+        }
+        else
+        {
+            ChangeEnergyLevel(-300);
         }
     }
 

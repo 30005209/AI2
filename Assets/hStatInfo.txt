@@ -13,3 +13,43 @@ NewGeneration (Died:0)(New Total Pop: 0):
 Average: 0
 NewGeneration (Died:0)(New Total Pop: 0):
 Average: 0
+NewGeneration (Died:0)(New Total Pop: 0):
+Average: 0
+NewGeneration (Died:22)(New Total Pop: 156):
+Average: 310
+NewGeneration (Died:66)(New Total Pop: 204):
+Average: 327
+NewGeneration (Died:163)(New Total Pop: 250):
+Average: 296
+NewGeneration (Died:199)(New Total Pop: 332):
+Average: 291
+NewGeneration (Died:277)(New Total Pop: 300):
+Average: 290
+NewGeneration (Died:267)(New Total Pop: 336):
+Average: 264
+NewGeneration (Died:284)(New Total Pop: 308):
+Average: 283
+NewGeneration (Died:300)(New Total Pop: 254):
+Average: 265
+NewGeneration (Died:226)(New Total Pop: 204):
+Average: 272
+NewGeneration (Died:197)(New Total Pop: 146):
+Average: 273
+NewGeneration (Died:136)(New Total Pop: 84):
+Average: 248
+NewGeneration (Died:121)(New Total Pop: 132):
+Average: 217
+NewGeneration (Died:92)(New Total Pop: 86):
+Average: 231
+NewGeneration (Died:143)(New Total Pop: 90):
+Average: 228
+NewGeneration (Died:146)(New Total Pop: 88):
+Average: 187
+NewGeneration (Died:124)(New Total Pop: 82):
+Average: 218
+NewGeneration (Died:128)(New Total Pop: 92):
+Average: 210
+NewGeneration (Died:146)(New Total Pop: 78):
+Average: 146
+NewGeneration (Died:103)(New Total Pop: 84):
+Average: 213

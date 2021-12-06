@@ -53,14 +53,14 @@ public class Food : Entity
 
     protected override void Fight(Entity targetEntity)
     {
-        ChangeEnergyLevel(-400);
+        ChangeEnergyLevel(-300);
     }
 
     protected override void Reproduce(Entity targetEntity)
     {
         if(targetEntity.GetEntType() == EntityType.food)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 3; i++)
             {
                 ChangeEnergyLevel(-50);
                 Food child = gameObject.AddComponent<Food>();
@@ -74,7 +74,7 @@ public class Food : Entity
 
     protected override void Hide(Entity targetEntity)
     {
-        ChangeEnergyLevel(-400);
+        ChangeEnergyLevel(-300);
     }
 
     public override void Update()
