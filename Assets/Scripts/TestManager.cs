@@ -49,6 +49,9 @@ public class TestManager : MonoBehaviour
     Entity.EventWeight foodEWHerb = new Entity.EventWeight(0, 0, 0);
     Entity.EventWeight herbEWHerb = new Entity.EventWeight(0, 0, 0);
     Entity.EventWeight herbEWfood = new Entity.EventWeight(0, 0, 0);
+
+    private int HerbivoreIntroCount = 0;
+    private bool HerbivoreIntro = false;
     
     
     // Start is called before the first frame update
@@ -352,16 +355,27 @@ public class TestManager : MonoBehaviour
 
             if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.food).Count < 50)
             {
-                print("Reintroduce Food");
+                print("Introduce Food");
                 ReintroducePopulation(Entity.EntityType.food);
             }
-        
-            //if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.herbivore).Count < 50)
-            //{
-            //    print("Reintroduce Herbivore");
-            //    ReintroducePopulation(Entity.EntityType.herbivore);
-            //}
 
+            if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.food).Count > 200)
+            {
+                HerbivoreIntroCount++;
+            }
+            else
+            {
+                HerbivoreIntroCount = 0;
+            }
+
+            if (HerbivoreIntroCount > 3) HerbivoreIntro = true;
+
+            if (entities.FindAll(e => e.GetEntType() == Entity.EntityType.herbivore).Count < 50
+            && HerbivoreIntro)
+            {
+                print("Introduce Herbivore");
+                ReintroducePopulation(Entity.EntityType.herbivore);
+            }
         }
     }
     void CreateText(string givenPath)

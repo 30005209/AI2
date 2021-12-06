@@ -83,6 +83,10 @@ public class Herbivore : Entity
                 targetEntity.causeOfDeath = "Killed by Herbivore";
             }
         }
+        else
+        {
+            ChangeEnergyLevel(-200);
+        }
     }
 
     protected override void Reproduce(Entity targetEntity)
@@ -91,7 +95,7 @@ public class Herbivore : Entity
         {
             if (this != null && targetEntity != null)
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     ChangeEnergyLevel(-50);
                     Herbivore child = gameObject.AddComponent<Herbivore>();
@@ -114,6 +118,10 @@ public class Herbivore : Entity
             {
                 targetEntity.MakeFight(this);
             }
+        }
+        else
+        {
+            ChangeEnergyLevel(-300);
         }
     }
 
