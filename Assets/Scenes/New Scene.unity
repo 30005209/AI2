@@ -152,25 +152,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2c86ae0ab1e764a873b7d062e62951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfHerb: 10
-  deadHerb: 0
+  updateTimer: 10
+  numOfFood: 0
+  numOfHerb: 0
   numOfCarn: 0
   numOfOmni: 0
-  numOfFood: 10
   deadFood: 0
-  groundEnergy: 10000
+  deadHerb: 0
+  deadCarn: 0
+  groundEnergy: 1000
   entities: []
-  eliteFood: []
-  weakFood: []
-  eliteFoodAmount: 1000
-  weakFoodAmount: 100
-  reproFood: []
-  eliteHerb: []
-  weakHerb: []
-  eliteHerbAmount: 1000
-  weakHerbAmount: 100
-  reproHerb: []
-  updateTimer: 5
+  CarnivoreIntroCount: 0
+  CarnivoreIntro: 0
 --- !u!4 &85808078
 Transform:
   m_ObjectHideFlags: 0

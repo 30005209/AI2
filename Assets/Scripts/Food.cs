@@ -53,7 +53,7 @@ public class Food : Entity
 
     protected override void Fight(Entity targetEntity)
     {
-        ChangeEnergyLevel(-300);
+        ChangeEnergyLevel(-500);
     }
 
     protected override void Reproduce(Entity targetEntity)
@@ -74,7 +74,7 @@ public class Food : Entity
 
     protected override void Hide(Entity targetEntity)
     {
-        ChangeEnergyLevel(-300);
+        ChangeEnergyLevel(-500);
     }
 
     public override void Update()
