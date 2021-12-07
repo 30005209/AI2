@@ -1,0 +1,43 @@
+Test:
+
+Average Herbivore Stats (Food): 0 | 0 | 0
+Average Herbivore Stats (Herb): 0 | 0 | 0
+Average Herbivore Stats (Carn): 0 | 0 | 0
+Average Herbivore Stats (Omni): 0 | 0 | 0
+
+Average Herbivore Stats (Food): 0 | 0 | 0
+Average Herbivore Stats (Herb): 0 | 0 | 0
+Average Herbivore Stats (Carn): 0 | 0 | 0
+Average Herbivore Stats (Omni): 0 | 0 | 0
+
+Average Herbivore Stats (Food): 0 | 0 | 0
+Average Herbivore Stats (Herb): 0 | 0 | 0
+Average Herbivore Stats (Carn): 0 | 0 | 0
+Average Herbivore Stats (Omni): 0 | 0 | 0
+
+Average Herbivore Stats (Food): 0 | 0 | 0
+Average Herbivore Stats (Herb): 0 | 0 | 0
+Average Herbivore Stats (Carn): 0 | 0 | 0
+Average Herbivore Stats (Omni): 0 | 0 | 0
+
+Average Herbivore Stats (Food): 0 | 0 | 0
+Average Herbivore Stats (Herb): 0 | 0 | 0
+Average Herbivore Stats (Carn): 0 | 0 | 0
+Average Herbivore Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Herbivores
+Average Herbivore Stats (Food): 19 | 6 | 32
+Average Herbivore Stats (Herb): 17 | 22 | 21
+Average Herbivore Stats (Carn): 18 | 20 | 20
+Average Herbivore Stats (Omni): 21 | 25 | 15
+
+
+Reintroduction of Herbivores
+Average Herbivore Stats (Food): 24 | 8 | 27
+Average Herbivore Stats (Herb): 17 | 19 | 22
+Average Herbivore Stats (Carn): 19 | 21 | 19
+Average Herbivore Stats (Omni): 20 | 20 | 18
+
+
+Reintroduction of Herbivores

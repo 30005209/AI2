@@ -11,6 +11,7 @@ using UnityEngine.UIElements;
 using System.IO;
 using System.Linq;
 using System.Security;
+using JetBrains.Annotations;
 using UnityEngine.SubsystemsImplementation;
 
 public class TestManager : MonoBehaviour
@@ -27,7 +28,7 @@ public class TestManager : MonoBehaviour
     [Header("Populations")]
     [SerializeField] private int numOfFood = 0;
     [SerializeField] private int numOfHerb = 0;
-    [SerializeField] public int numOfCarn = 0;
+    [SerializeField] private int numOfCarn = 0;
     [SerializeField] private int numOfOmni = 0;
     
     [Header("Deaths")]
@@ -36,41 +37,39 @@ public class TestManager : MonoBehaviour
     [SerializeField] private int deadCarn = 0;
     [SerializeField] private int deadOmni = 0;
     
-    [Header("Starting Scene")]
-    [Tooltip("How much energy the land has at the start, lower amounts will make it harder for plants to grow")]
-    [SerializeField] public int groundEnergy = 1000;
-    
-    [SerializeField] public List<Entity> entities;
-    
     [Header("Food Information")]
-    [SerializeField] public List<Entity> eliteFood;
-    [SerializeField] public List<Entity> weakFood;
-    [SerializeField] public float eliteFoodAmount = 1000;
-    [SerializeField] public float weakFoodAmount = 100;
-    [SerializeField] public List<Entity> reproFood;
+    [SerializeField] private float eliteFoodAmount = 1000;
+    [SerializeField] private float weakFoodAmount = 100;
+    [HideInInspector][SerializeField] private List<Entity> eliteFood;
+    [HideInInspector][SerializeField] private List<Entity> weakFood;
+    [HideInInspector][SerializeField] private List<Entity> reproFood;
     
     [Header("Herbivore Information")]
-    [SerializeField] public List<Entity> eliteHerb;
-    [SerializeField] public List<Entity> weakHerb;
-    [SerializeField] public float eliteHerbAmount = 1000;
-    [SerializeField] public float weakHerbAmount = 100;
-    [SerializeField] public List<Entity> reproHerb;
+    [SerializeField] private float eliteHerbAmount = 1000;
+    [SerializeField] private float weakHerbAmount = 100;
+    [HideInInspector][SerializeField] private List<Entity> eliteHerb;
+    [HideInInspector][SerializeField] private List<Entity> weakHerb;
+    [HideInInspector][SerializeField] private List<Entity> reproHerb;
     
     [Header("Carnivore Information")]
-    [SerializeField] public List<Entity> eliteCarn;
-    [SerializeField] public List<Entity> weakCarn;
-    [SerializeField] public float eliteCarnAmount = 1000;
-    [SerializeField] public float weakCarnAmount = 100;
-    [SerializeField] public List<Entity> reproCarn;
+    [SerializeField] private float eliteCarnAmount = 1000;
+    [SerializeField] private float weakCarnAmount = 100;
+    [HideInInspector][SerializeField] private List<Entity> eliteCarn;
+    [HideInInspector][SerializeField] private List<Entity> weakCarn;
+    [HideInInspector][SerializeField] private List<Entity> reproCarn;
     
     [Header("Omnivore Information")]
-    [SerializeField] public List<Entity> eliteOmni;
-    [SerializeField] public List<Entity> weakOmni;
-    [SerializeField] public float eliteOmniAmount = 1000;
-    [SerializeField] public float weakOmniAmount = 100;
-    [SerializeField] public List<Entity> reproOmni;
-
-    public System.Random random;
+    [SerializeField] private float eliteOmniAmount = 1000;
+    [SerializeField] private float weakOmniAmount = 100;
+    [HideInInspector][SerializeField] private List<Entity> eliteOmni;
+    [HideInInspector][SerializeField] private List<Entity> weakOmni;
+    [HideInInspector][SerializeField] private List<Entity> reproOmni;
+    
+    [Header("General Info")]
+    [Tooltip("How much energy the land has at the start, lower amounts will make it harder for plants to grow")]
+    [SerializeField] public int groundEnergy = 1000;
+    [SerializeField] public List<Entity> entities;
+    [NonSerialized] public System.Random random;
     
     private string pathFInfo;
     private string pathFStat;
@@ -655,7 +654,7 @@ public class TestManager : MonoBehaviour
         {
             ResetInfo();
             
-            entities.RemoveAll(e => !e.IsAlive());
+            entities?.RemoveAll(e => !e.IsAlive());
             timerCur = timerMax;
             
             UpdateEntityInfo();
@@ -721,8 +720,8 @@ public class TestManager : MonoBehaviour
             File.WriteAllText(givenPath, "Test:\n\n");
         }
     }
-    public List<Entity> GetAllEnts()
+    public ref List<Entity> GetAllEnts()
     {
-        return entities;
+        return ref entities;
     }
 }
