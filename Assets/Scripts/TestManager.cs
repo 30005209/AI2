@@ -10,12 +10,21 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.IO;
 using System.Linq;
+using System.Security;
 using UnityEngine.SubsystemsImplementation;
 
 public class TestManager : MonoBehaviour
 {
-    [SerializeField] private float updateTimer = 0;
-    [SerializeField] private int numOfFood = 00;
+    [Header("Timer Info")]
+    [SerializeField] private float timerCur = 0;
+    [SerializeField] private float timerMax = 5.0f;
+    
+    [Header("Active Entities")] 
+    [Tooltip("Herbivores will spawn")] [SerializeField] private bool allowHerbivores = true;
+    [Tooltip("Carnivores will spawn")] [SerializeField] private bool allowCarnivores = true;
+    [Tooltip("Omnivores will spawn")] [SerializeField] private bool allowOmnivores = true;
+    
+    [SerializeField] private int numOfFood = 0;
     [SerializeField] private int numOfHerb = 0;
     [SerializeField] public int numOfCarn = 0;
     [SerializeField] private int numOfOmni = 0;
@@ -632,14 +641,14 @@ public class TestManager : MonoBehaviour
     
     private void FixedUpdate()
     {
-        updateTimer -= Time.deltaTime;
+        timerCur -= Time.deltaTime;
 
-        if (updateTimer < 0)
+        if (timerCur < 0)
         {
             ResetInfo();
             
             entities.RemoveAll(e => !e.IsAlive());
-            updateTimer = 5;
+            timerCur = timerMax;
             
             UpdateEntityInfo();
             UpdateAverageStats();
@@ -662,7 +671,7 @@ public class TestManager : MonoBehaviour
             }
 
             // If there is more than 200 food and  more food than herbivores - Reintroduce herbivores
-            if (numOfFood > 500 && numOfFood > numOfHerb)
+            if (allowHerbivores && numOfFood > 500 && numOfFood > numOfHerb)
             {
                 print("Introduce Herbivores");
                 ReintroducePopulation(Entity.EntityType.herbivore);
@@ -670,7 +679,7 @@ public class TestManager : MonoBehaviour
             }
             
             // If there is more than 100 herbivores and more herbivores than carnivores - Reintroduce carnivores
-            if (numOfHerb > 400 && numOfHerb > numOfCarn)
+            if (allowCarnivores && numOfHerb > 400 && numOfHerb > numOfCarn)
             {
                 print("Introduce Carnivores");
                 ReintroducePopulation(Entity.EntityType.carnivore);
@@ -679,7 +688,7 @@ public class TestManager : MonoBehaviour
             
             // If there is more than 50 carnivores and more than 50 and more than 50 food and more
             // (carnivores + herbivores + food ) /2 than omnivores - Reintroduce omnivores
-            if (numOfFood > 100 && numOfHerb > 100 && numOfCarn > 100 && 
+            if (allowOmnivores && numOfFood > 100 && numOfHerb > 100 && numOfCarn > 100 && 
                 (numOfFood + numOfHerb + numOfCarn)/2 > numOfOmni)
             {
                 print("Introduce Omnivores");
