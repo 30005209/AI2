@@ -10,51 +10,67 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.IO;
 using System.Linq;
+using System.Security;
+using JetBrains.Annotations;
 using UnityEngine.SubsystemsImplementation;
 
 public class TestManager : MonoBehaviour
 {
-    [SerializeField] private float updateTimer = 0;
-    [SerializeField] private int numOfFood = 00;
+    [Header("Timer Info")]
+    [SerializeField] private float timerCur = 0;
+    [SerializeField] private float timerMax = 5.0f;
+    
+    [Header("Active Entities")] 
+    [Tooltip("Herbivores will spawn")] [SerializeField] private bool allowHerbivores = true;
+    [Tooltip("Carnivores will spawn")] [SerializeField] private bool allowCarnivores = true;
+    [Tooltip("Omnivores will spawn")] [SerializeField] private bool allowOmnivores = true;
+    
+    [Header("Populations")]
+    [SerializeField] private int numOfFood = 0;
     [SerializeField] private int numOfHerb = 0;
-    [SerializeField] public int numOfCarn = 0;
+    [SerializeField] private int numOfCarn = 0;
     [SerializeField] private int numOfOmni = 0;
+    
+    [Header("Deaths")]
     [SerializeField] private int deadFood = 0;
     [SerializeField] private int deadHerb = 0;
     [SerializeField] private int deadCarn = 0;
     [SerializeField] private int deadOmni = 0;
+    
+    [Header("Food Information")]
+    [SerializeField] private float eliteFoodAmount = 1000;
+    [SerializeField] private float weakFoodAmount = 100;
+    [HideInInspector][SerializeField] private List<Entity> eliteFood;
+    [HideInInspector][SerializeField] private List<Entity> weakFood;
+    [HideInInspector][SerializeField] private List<Entity> reproFood;
+    
+    [Header("Herbivore Information")]
+    [SerializeField] private float eliteHerbAmount = 1000;
+    [SerializeField] private float weakHerbAmount = 100;
+    [HideInInspector][SerializeField] private List<Entity> eliteHerb;
+    [HideInInspector][SerializeField] private List<Entity> weakHerb;
+    [HideInInspector][SerializeField] private List<Entity> reproHerb;
+    
+    [Header("Carnivore Information")]
+    [SerializeField] private float eliteCarnAmount = 1000;
+    [SerializeField] private float weakCarnAmount = 100;
+    [HideInInspector][SerializeField] private List<Entity> eliteCarn;
+    [HideInInspector][SerializeField] private List<Entity> weakCarn;
+    [HideInInspector][SerializeField] private List<Entity> reproCarn;
+    
+    [Header("Omnivore Information")]
+    [SerializeField] private float eliteOmniAmount = 1000;
+    [SerializeField] private float weakOmniAmount = 100;
+    [HideInInspector][SerializeField] private List<Entity> eliteOmni;
+    [HideInInspector][SerializeField] private List<Entity> weakOmni;
+    [HideInInspector][SerializeField] private List<Entity> reproOmni;
+    
+    [Header("General Info")]
+    [Tooltip("How much energy the land has at the start, lower amounts will make it harder for plants to grow")]
     [SerializeField] public int groundEnergy = 1000;
     [SerializeField] public List<Entity> entities;
+    [NonSerialized] public System.Random random;
     
-    // Food
-    [SerializeField] public List<Entity> eliteFood;
-    [SerializeField] public List<Entity> weakFood;
-    [SerializeField] public float eliteFoodAmount = 1000;
-    [SerializeField] public float weakFoodAmount = 100;
-    [SerializeField] public List<Entity> reproFood;
-    
-    // Herbivore
-    [SerializeField] public List<Entity> eliteHerb;
-    [SerializeField] public List<Entity> weakHerb;
-    [SerializeField] public float eliteHerbAmount = 1000;
-    [SerializeField] public float weakHerbAmount = 100;
-    [SerializeField] public List<Entity> reproHerb;
-    
-    // Carnivore
-    [SerializeField] public List<Entity> eliteCarn;
-    [SerializeField] public List<Entity> weakCarn;
-    [SerializeField] public float eliteCarnAmount = 1000;
-    [SerializeField] public float weakCarnAmount = 100;
-    [SerializeField] public List<Entity> reproCarn;
-    
-    // Omnivore
-    [SerializeField] public List<Entity> eliteOmni;
-    [SerializeField] public List<Entity> weakOmni;
-    [SerializeField] public float eliteOmniAmount = 1000;
-    [SerializeField] public float weakOmniAmount = 100;
-    [SerializeField] public List<Entity> reproOmni;
-
-    public System.Random random;
     private string pathFInfo;
     private string pathFStat;
     private string pathHInfo;
@@ -64,32 +80,32 @@ public class TestManager : MonoBehaviour
     private string pathOInfo;
     private string pathOStat;
     
-    int averageFood = 0;
-    int averageHerb = 0;
-    int averageCarn = 0;
-    int averageOmni = 0;
+    // Average amount of energy found in each type of entity
+    private int averageFood = 0;
+    private int averageHerb = 0;
+    private int averageCarn = 0;
+    private int averageOmni = 0;
     
-    Entity.EventWeight foodEWfood = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight foodEWHerb = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight foodEWCarn = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight foodEWOmni = new Entity.EventWeight(0, 0, 0);
-    
-    Entity.EventWeight herbEWfood = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight herbEWHerb = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight herbEWCarn = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight herbEWOmni = new Entity.EventWeight(0, 0, 0);
-    
-    Entity.EventWeight carnEWfood = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight carnEWHerb = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight carnEWCarn = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight carnEWOmni = new Entity.EventWeight(0, 0, 0);
-    
-    Entity.EventWeight omniEWfood = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight omniEWHerb = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight omniEWCarn = new Entity.EventWeight(0, 0, 0);
-    Entity.EventWeight omniEWOmni = new Entity.EventWeight(0, 0, 0);
+    // Event weights used to keep track of average action dispositions
+    private Entity.EventWeight foodEWfood = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight foodEWHerb = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight foodEWCarn = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight foodEWOmni = new Entity.EventWeight(0, 0, 0);
 
-    
+    private Entity.EventWeight herbEWfood = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight herbEWHerb = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight herbEWCarn = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight herbEWOmni = new Entity.EventWeight(0, 0, 0);
+
+    private Entity.EventWeight carnEWfood = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight carnEWHerb = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight carnEWCarn = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight carnEWOmni = new Entity.EventWeight(0, 0, 0);
+
+    private Entity.EventWeight omniEWfood = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight omniEWHerb = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight omniEWCarn = new Entity.EventWeight(0, 0, 0);
+    private Entity.EventWeight omniEWOmni = new Entity.EventWeight(0, 0, 0);
     
     // Start is called before the first frame update
     void Start()
@@ -632,14 +648,14 @@ public class TestManager : MonoBehaviour
     
     private void FixedUpdate()
     {
-        updateTimer -= Time.deltaTime;
+        timerCur -= Time.deltaTime;
 
-        if (updateTimer < 0)
+        if (timerCur < 0)
         {
             ResetInfo();
             
-            entities.RemoveAll(e => !e.IsAlive());
-            updateTimer = 5;
+            entities?.RemoveAll(e => !e.IsAlive());
+            timerCur = timerMax;
             
             UpdateEntityInfo();
             UpdateAverageStats();
@@ -662,7 +678,7 @@ public class TestManager : MonoBehaviour
             }
 
             // If there is more than 200 food and  more food than herbivores - Reintroduce herbivores
-            if (numOfFood > 500 && numOfFood > numOfHerb)
+            if (allowHerbivores && numOfFood > 500 && numOfFood > numOfHerb)
             {
                 print("Introduce Herbivores");
                 ReintroducePopulation(Entity.EntityType.herbivore);
@@ -670,7 +686,7 @@ public class TestManager : MonoBehaviour
             }
             
             // If there is more than 100 herbivores and more herbivores than carnivores - Reintroduce carnivores
-            if (numOfHerb > 400 && numOfHerb > numOfCarn)
+            if (allowCarnivores && numOfHerb > 400 && numOfHerb > numOfCarn)
             {
                 print("Introduce Carnivores");
                 ReintroducePopulation(Entity.EntityType.carnivore);
@@ -679,7 +695,7 @@ public class TestManager : MonoBehaviour
             
             // If there is more than 50 carnivores and more than 50 and more than 50 food and more
             // (carnivores + herbivores + food ) /2 than omnivores - Reintroduce omnivores
-            if (numOfFood > 100 && numOfHerb > 100 && numOfCarn > 100 && 
+            if (allowOmnivores && numOfFood > 100 && numOfHerb > 100 && numOfCarn > 100 && 
                 (numOfFood + numOfHerb + numOfCarn)/2 > numOfOmni)
             {
                 print("Introduce Omnivores");
@@ -704,8 +720,8 @@ public class TestManager : MonoBehaviour
             File.WriteAllText(givenPath, "Test:\n\n");
         }
     }
-    public List<Entity> GetAllEnts()
+    public ref List<Entity> GetAllEnts()
     {
-        return entities;
+        return ref entities;
     }
 }
