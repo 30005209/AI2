@@ -13,6 +13,7 @@ using System.Linq;
 using System.Security;
 using JetBrains.Annotations;
 using UnityEngine.SubsystemsImplementation;
+using Debug = UnityEngine.Debug;
 
 public class TestManager : MonoBehaviour
 {
@@ -24,8 +25,9 @@ public class TestManager : MonoBehaviour
     [Tooltip("Herbivores will spawn")] [SerializeField] private bool allowHerbivores = true;
     [Tooltip("Carnivores will spawn")] [SerializeField] private bool allowCarnivores = true;
     [Tooltip("Omnivores will spawn")] [SerializeField] private bool allowOmnivores = true;
-    
-    [Header("Populations")]
+
+    [Header("Populations")] 
+    [SerializeField] private int currentGeneration = 0;
     [SerializeField] private int numOfFood = 0;
     [SerializeField] private int numOfHerb = 0;
     [SerializeField] private int numOfCarn = 0;
@@ -711,6 +713,8 @@ public class TestManager : MonoBehaviour
             deadHerb = 0;
             deadCarn = 0;
             deadOmni = 0;
+            
+            currentGeneration++;
         }
     }
     void CreateText(string givenPath)
@@ -723,5 +727,32 @@ public class TestManager : MonoBehaviour
     public ref List<Entity> GetAllEnts()
     {
         return ref entities;
+    }
+
+    public int GetGeneration()
+    {
+        return currentGeneration;
+    }
+
+    public int GetPopulation(Entity.EntityType type)
+    {
+        switch (type)
+        {
+            case Entity.EntityType.food:
+                return numOfFood;
+            
+            case Entity.EntityType.herbivore:
+                return numOfHerb;
+            
+            case Entity.EntityType.carnivore:
+                return numOfCarn;
+                
+            case Entity.EntityType.omnivore:
+                return numOfOmni;
+            
+            default:
+                Debug.LogError("Failed to obtain population");
+                return -1;
+        }
     }
 }
