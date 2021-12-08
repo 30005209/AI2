@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e6cfdeeb2be552438e98969025af5a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleSprite: {fileID: 0}
+  circleSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   dotColourFood: {r: 0, g: 0.65882355, b: 1, a: 1}
   lineColorFood: {r: 0.09803922, g: 0.16470589, b: 0.3372549, a: 1}
   dotColourHerb: {r: 0.29803923, g: 0.81960785, b: 0.21568628, a: 1}
@@ -387,21 +387,25 @@ MonoBehaviour:
   eliteFood: []
   weakFood: []
   reproFood: []
+  curFood: []
   eliteHerbAmount: 1000
   weakHerbAmount: 100
   eliteHerb: []
   weakHerb: []
   reproHerb: []
+  curHerb: []
   eliteCarnAmount: 1000
   weakCarnAmount: 100
   eliteCarn: []
   weakCarn: []
   reproCarn: []
+  curCarn: []
   eliteOmniAmount: 1000
   weakOmniAmount: 100
   eliteOmni: []
   weakOmni: []
   reproOmni: []
+  curOmni: []
   groundEnergy: 1000
   entities: []
 --- !u!4 &433138324

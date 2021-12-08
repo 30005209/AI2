@@ -11,9 +11,11 @@ using UnityEngine.UIElements;
 using System.IO;
 using System.Linq;
 using System.Security;
+using System.Threading;
 using JetBrains.Annotations;
 using UnityEngine.SubsystemsImplementation;
 using Debug = UnityEngine.Debug;
+using System.Threading.Tasks;
 
 public class TestManager : MonoBehaviour
 {
@@ -45,6 +47,8 @@ public class TestManager : MonoBehaviour
     [HideInInspector][SerializeField] private List<Entity> eliteFood;
     [HideInInspector][SerializeField] private List<Entity> weakFood;
     [HideInInspector][SerializeField] private List<Entity> reproFood;
+    [HideInInspector][SerializeField] private List<Entity> curFood;
+    
     
     [Header("Herbivore Information")]
     [SerializeField] private float eliteHerbAmount = 1000;
@@ -52,6 +56,7 @@ public class TestManager : MonoBehaviour
     [HideInInspector][SerializeField] private List<Entity> eliteHerb;
     [HideInInspector][SerializeField] private List<Entity> weakHerb;
     [HideInInspector][SerializeField] private List<Entity> reproHerb;
+    [HideInInspector][SerializeField] private List<Entity> curHerb;
     
     [Header("Carnivore Information")]
     [SerializeField] private float eliteCarnAmount = 1000;
@@ -59,6 +64,7 @@ public class TestManager : MonoBehaviour
     [HideInInspector][SerializeField] private List<Entity> eliteCarn;
     [HideInInspector][SerializeField] private List<Entity> weakCarn;
     [HideInInspector][SerializeField] private List<Entity> reproCarn;
+    [HideInInspector][SerializeField] private List<Entity> curCarn;
     
     [Header("Omnivore Information")]
     [SerializeField] private float eliteOmniAmount = 1000;
@@ -66,6 +72,7 @@ public class TestManager : MonoBehaviour
     [HideInInspector][SerializeField] private List<Entity> eliteOmni;
     [HideInInspector][SerializeField] private List<Entity> weakOmni;
     [HideInInspector][SerializeField] private List<Entity> reproOmni;
+    [HideInInspector][SerializeField] private List<Entity> curOmni;
     
     [Header("General Info")]
     [Tooltip("How much energy the land has at the start, lower amounts will make it harder for plants to grow")]
@@ -238,59 +245,65 @@ public class TestManager : MonoBehaviour
 
     private void UpdateElites()
     {
-        foreach (Entity e in entities)
-        {
-            if (e.GetEntType() == Entity.EntityType.food)
+        int sum = 0;
+        Parallel.ForEach(
+            entities, // source collection
+            () => 0, // thread local initializer
+            (e, loopState, localSum) => // body
             {
-                if (e.GetEnergyCur() >= eliteFoodAmount)
+                if (e.GetEntType() == Entity.EntityType.food)
                 {
-                    eliteFood.Add(e);
+                    if (e.GetEnergyCur() >= eliteFoodAmount)
+                    {
+                        eliteFood.Add(e);
+                    }
+                    else if (e.GetEnergyCur() <= weakFoodAmount)
+                    {
+                        weakFood.Add(e);
+                    }
                 }
-                else if (e.GetEnergyCur() <= weakFoodAmount)
-                {
-                    weakFood.Add(e);
-                }
-            }
 
-            if (e.GetEntType() == Entity.EntityType.herbivore)
-            {
-                if (e.GetEnergyCur() >= eliteFoodAmount && e.IsAlive())
+                if (e.GetEntType() == Entity.EntityType.herbivore)
                 {
-                    eliteHerb.Add(e);
+                    if (e.GetEnergyCur() >= eliteFoodAmount && e.IsAlive())
+                    {
+                        eliteHerb.Add(e);
+                    }
+                    else if (e.GetEnergyCur() <= weakHerbAmount && e.IsAlive())
+                    {
+                        weakHerb.Add(e);
+                    }
                 }
-                else if (e.GetEnergyCur() <= weakHerbAmount && e.IsAlive())
-                {
-                    weakHerb.Add(e);
-                }
-            }
-            
-            if (e.GetEntType() == Entity.EntityType.carnivore)
-            {
-                if (e.GetEnergyCur() >= eliteCarnAmount && e.IsAlive())
-                {
-                    eliteCarn.Add(e);
-                }
-                else if (e.GetEnergyCur() <= weakCarnAmount && e.IsAlive())
-                {
-                    weakCarn.Add(e);
-                }
-            }
-                
-            if (e.GetEntType() == Entity.EntityType.omnivore)
-            {
-                if (e.GetEnergyCur() >= eliteOmniAmount && e.IsAlive())
-                {
-                    eliteOmni.Add(e);
-                }
-                else if (e.GetEnergyCur() <= weakOmniAmount && e.IsAlive())
-                {
-                    weakOmni.Add(e);
-                }
-            }
 
-            //File.AppendAllText(pathFStat, "\nElite (Pop: " + eliteFood.Count.ToString()
-            //                                               + ") Reaching " + eliteFoodAmount.ToString().ToString());
-        }
+                if (e.GetEntType() == Entity.EntityType.carnivore)
+                {
+                    if (e.GetEnergyCur() >= eliteCarnAmount && e.IsAlive())
+                    {
+                        eliteCarn.Add(e);
+                    }
+                    else if (e.GetEnergyCur() <= weakCarnAmount && e.IsAlive())
+                    {
+                        weakCarn.Add(e);
+                    }
+                }
+
+                if (e.GetEntType() == Entity.EntityType.omnivore)
+                {
+                    if (e.GetEnergyCur() >= eliteOmniAmount && e.IsAlive())
+                    {
+                        eliteOmni.Add(e);
+                    }
+                    else if (e.GetEnergyCur() <= weakOmniAmount && e.IsAlive())
+                    {
+                        weakOmni.Add(e);
+                    }
+                }
+
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
+        );
+
     }
 
     private void EliteRepro(Entity.EntityType type)
@@ -301,12 +314,11 @@ public class TestManager : MonoBehaviour
             count = entities.FindAll(e => e.GetEntType() == type).Count;
             UpdateElites();
 
+            int sum = 0;
             switch (type)
             {
-
                 case Entity.EntityType.food:
                     // Elite Reproduction Food
-
                     if (count < 600)
                     {
                         foreach (var f in eliteFood)
@@ -314,14 +326,11 @@ public class TestManager : MonoBehaviour
                             if (f is Food && f.GetEnergyCur() > 500 & this != null)
                             {
                                 Entity E = null;
-
                                 while (E == null)
                                 {
                                     E = eliteFood[random.Next(eliteFood.Count)];
                                 }
-
                                 groundEnergy -= 250;
-
                                 f.NightReproduce(E);
                             }
                         }
@@ -337,12 +346,10 @@ public class TestManager : MonoBehaviour
                             if (h is Herbivore && h.GetEnergyCur() > 500 && this != null)
                             {
                                 Entity E = null;
-
                                 while (E == null)
                                 {
                                     E = eliteHerb[random.Next(eliteHerb.Count)];
                                 }
-
                                 h.ChangeEnergyLevel(-250);
                                 h.NightReproduce(E);
                             }
@@ -359,12 +366,10 @@ public class TestManager : MonoBehaviour
                             if (c is Carnivore && c.GetEnergyCur() > 500 && this != null)
                             {
                                 Entity E = null;
-
                                 while (E == null)
                                 {
                                     E = eliteCarn[random.Next(eliteCarn.Count)];
                                 }
-
                                 c.ChangeEnergyLevel(-250);
                                 c.NightReproduce(E);
                             }
@@ -381,12 +386,10 @@ public class TestManager : MonoBehaviour
                             if (o is Omnivore && o.GetEnergyCur() > 500 && this != null)
                             {
                                 Entity E = null;
-
                                 while (E == null)
                                 {
                                     E = eliteOmni[random.Next(eliteOmni.Count)];
                                 }
-
                                 o.ChangeEnergyLevel(-250);
                                 o.NightReproduce(E);
                             }
@@ -410,46 +413,81 @@ public class TestManager : MonoBehaviour
 
     private void UpdateEntityInfo()
     {
-        foreach (Entity e in entities)
-        {
-            if (e.GetEntType() == Entity.EntityType.food)
+        Parallel.ForEach(
+            curFood,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
             {
-                eliteFoodAmount = e.GetEnergyCur() * 0.7f;
-                weakFoodAmount = e.GetEnergyCur() * 0.3f;
-                averageFood += e.GetEnergyCur();
+                localSum += e.GetEnergyCur();
                 numOfFood++;
-            }
-
-            if (e.GetEntType() == Entity.EntityType.herbivore)
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref averageFood, localSum)					// thread local aggregator
+        );
+        
+        Parallel.ForEach(
+            curHerb,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
             {
-                eliteHerbAmount = e.GetEnergyCur() * 0.7f;
-                weakHerbAmount = e.GetEnergyCur() * 0.3f;
-                averageHerb += e.GetEnergyCur();
+                localSum += e.GetEnergyCur();
                 numOfHerb++;
-            }
-            
-            if (e.GetEntType() == Entity.EntityType.carnivore)
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref averageHerb, localSum)					// thread local aggregator
+        );
+        
+        Parallel.ForEach(
+            curCarn,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
             {
-                eliteCarnAmount = e.GetEnergyCur() * 0.7f;
-                weakCarnAmount = e.GetEnergyCur() * 0.3f;
-                averageCarn += e.GetEnergyCur();
+                localSum += e.GetEnergyCur();
                 numOfCarn++;
-            }
-            
-            if (e.GetEntType() == Entity.EntityType.omnivore)
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref averageCarn, localSum)					// thread local aggregator
+        );
+        
+        Parallel.ForEach(
+            curOmni,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
             {
-                eliteOmniAmount = e.GetEnergyCur() * 0.7f;
-                weakOmniAmount = e.GetEnergyCur() * 0.3f;
-                averageOmni += e.GetEnergyCur();
+                localSum += e.GetEnergyCur();
                 numOfOmni++;
-            }
-            
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref averageOmni, localSum)					// thread local aggregator
+        );
+        
+        if (numOfFood != 0) 
+        { 
+            averageFood /= numOfFood;          
+            eliteFoodAmount = averageFood * 0.7f;
+            weakFoodAmount = averageFood * 0.3f;
         }
 
-        if (numOfFood != 0) { averageFood /= numOfFood; }
-        if (numOfHerb != 0) { averageHerb /= numOfHerb; }
-        if (numOfCarn != 0) { averageCarn /= numOfCarn; }
-        if (numOfOmni != 0) { averageOmni /= numOfOmni; }
+        if (numOfHerb != 0)
+        {
+            averageHerb /= numOfHerb;
+            eliteHerbAmount = averageHerb * 0.7f;
+            weakHerbAmount = averageHerb * 0.3f;
+        }
+
+        if (numOfCarn != 0)
+        {
+            averageCarn /= numOfCarn;
+            eliteCarnAmount = averageCarn * 0.7f;
+            weakCarnAmount = averageCarn* 0.3f;
+        }
+
+        if (numOfOmni != 0)
+        {
+            averageOmni /= numOfOmni;
+            eliteOmniAmount = averageOmni * 0.7f;
+            weakOmniAmount = averageOmni* 0.3f;
+        }
 
 
        //File.AppendAllText(pathFStat, "\nNewGeneration (Died:" + deadFood.ToString() + ")(New Total Pop: "
@@ -470,55 +508,79 @@ public class TestManager : MonoBehaviour
 
     void ReproSuccessfulType(Entity.EntityType type)
     {
+        int sum = 0;
         switch (type)
         {
             case Entity.EntityType.food:
-                // Reproduction Successful Food
-                foreach (Food f in reproFood)
-                {
-                    if (f.GetEnergyCur() > f.GetEnergyStart() && reproFood.Count < 400)
+                Parallel.ForEach(
+                    reproFood,					        // source collection
+                    () => 0,					        // thread local initializer
+                    (e, loopState, localSum) =>		// body
                     {
-                        groundEnergy -= 250;
+                        if (e.GetEnergyCur() > e.GetEnergyStart() && reproFood.Count < 400)
+                        {
+                            groundEnergy -= 250;
 
-                        f.NightReproduce(reproFood[random.Next(reproFood.Count - 1)]);
-                    }
-                }
+                            e.NightReproduce(reproFood[random.Next(reproFood.Count - 1)]);
+                        }
+                        return localSum;
+                    },
+                    (localSum) => Interlocked.Add(ref sum, localSum)					// thread local aggregator
+                );
                 break;
             
             case Entity.EntityType.herbivore:
                 // Reproduction Successful Herb
-                foreach (Herbivore h in reproHerb)
-                {
-                    if (h.GetEnergyCur() > h.GetEnergyStart() && reproHerb.Count < 100)
+                Parallel.ForEach(
+                    reproFood,					        // source collection
+                    () => 0,					        // thread local initializer
+                    (e, loopState, localSum) =>		// body
                     {
-                        groundEnergy -= 250;
-                        h.NightReproduce(reproHerb[random.Next(reproHerb.Count - 1)]);
-                    }
-                }
+                        if (e.GetEnergyCur() > e.GetEnergyStart() && reproHerb.Count < 100)
+                        {
+                            groundEnergy -= 250;
+                            e.NightReproduce(reproHerb[random.Next(reproHerb.Count - 1)]);
+                        }
+                        return localSum;
+                    },
+                    (localSum) => Interlocked.Add(ref sum, localSum)					// thread local aggregator
+                );
                 break;
             
             case Entity.EntityType.carnivore:
                 // Reproduction Successful Carn
-                foreach (Carnivore c in reproHerb)
-                {
-                    if (c.GetEnergyCur() > c.GetEnergyStart() && reproCarn.Count < 100)
+                Parallel.ForEach(
+                    reproCarn,					        // source collection
+                    () => 0,					        // thread local initializer
+                    (e, loopState, localSum) =>		// body
                     {
-                        groundEnergy -= 250;
-                        c.NightReproduce(reproCarn[random.Next(reproCarn.Count - 1)]);
-                    }
-                }
+                        if (e.GetEnergyCur() > e.GetEnergyStart() && reproCarn.Count < 100)
+                        {
+                            groundEnergy -= 250;
+                            e.NightReproduce(reproCarn[random.Next(reproCarn.Count - 1)]);
+                        }
+                        return localSum;
+                    },
+                    (localSum) => Interlocked.Add(ref sum, localSum)					// thread local aggregator
+                );
                 break;
             
             case Entity.EntityType.omnivore:
                 // Reproduction Successful Carn
-                foreach (Omnivore o in reproOmni)
-                {
-                    if (o.GetEnergyCur() > o.GetEnergyStart() && reproOmni.Count < 20)
+                Parallel.ForEach(
+                    reproOmni,					        // source collection
+                    () => 0,					        // thread local initializer
+                    (e, loopState, localSum) =>		// body
                     {
-                        groundEnergy -= 250;
-                        o.NightReproduce(reproOmni[random.Next(reproOmni.Count - 1)]);
-                    }
-                }
+                        if (e.GetEnergyCur() > e.GetEnergyStart() && reproOmni.Count < 20)
+                        {
+                            groundEnergy -= 250;
+                            e.NightReproduce(reproOmni[random.Next(reproOmni.Count - 1)]);
+                        }
+                        return localSum;
+                    },
+                    (localSum) => Interlocked.Add(ref sum, localSum)					// thread local aggregator
+                );
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -527,29 +589,54 @@ public class TestManager : MonoBehaviour
 
     private void UpdateWeak()
     {
-        foreach (Food f in weakFood)
-        {
-            f.SetAlive(false);
-            f.causeOfDeath = "Weak";
-        }
+        int sum = 0;
+        Parallel.ForEach(
+            weakFood,					        // source collection
+            () => 0,					        // thread local initializer
+            (f, loopState, localSum) =>		// body
+            {
+                f.SetAlive(false);
+                f.causeOfDeath = "Weak";
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref sum, localSum)					// thread local aggregator
+        );
         
-        foreach (Herbivore h in weakHerb)
-        {
-            h.SetAlive(false);
-            h.causeOfDeath = "Weak";
-        }
-
-        foreach (Carnivore c in weakCarn)
-        {
-            c.SetAlive(false);
-            c.causeOfDeath = "Weak";
-        }
+        Parallel.ForEach(
+            weakHerb,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
+            {
+                e.SetAlive(false);
+                e.causeOfDeath = "Weak";
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref sum, localSum)					// thread local aggregator
+        );
         
-        foreach (Omnivore o in weakOmni)
-        {
-            o.SetAlive(false);
-            o.causeOfDeath = "Weak";
-        }
+        Parallel.ForEach(
+            weakCarn,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
+            {
+                e.SetAlive(false);
+                e.causeOfDeath = "Weak";
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref sum, localSum)					// thread local aggregator
+        );
+        
+        Parallel.ForEach(
+            weakOmni,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
+            {
+                e.SetAlive(false);
+                e.causeOfDeath = "Weak";
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref sum, localSum)					// thread local aggregator
+        );
         
         
         //File.AppendAllText(pathFStat, "\nWeak (Pop: " + weakFood.Count.ToString() 
@@ -558,41 +645,65 @@ public class TestManager : MonoBehaviour
 
     private void UpdateAverageStats()
     {
-        foreach (Entity e in entities)
-        {
-            if( e.GetEntType() == Entity.EntityType.food)
+        Parallel.ForEach(
+            curFood,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
             {
                 foodEWfood += e.GetEW(Entity.EntityType.food);
                 foodEWHerb += e.GetEW(Entity.EntityType.herbivore);
                 foodEWCarn += e.GetEW(Entity.EntityType.carnivore);
                 foodEWOmni += e.GetEW(Entity.EntityType.omnivore);
-            }
-                
-            if( e.GetEntType() == Entity.EntityType.herbivore)
+                localSum++;
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref numOfFood, localSum)					// thread local aggregator
+        );
+        
+        Parallel.ForEach(
+            curHerb,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
             {
                 herbEWfood += e.GetEW(Entity.EntityType.food);
                 herbEWHerb += e.GetEW(Entity.EntityType.herbivore);
                 herbEWCarn += e.GetEW(Entity.EntityType.carnivore);
                 herbEWOmni += e.GetEW(Entity.EntityType.omnivore);
-            }
-            
-            if( e.GetEntType() == Entity.EntityType.carnivore)
+                localSum++;
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref numOfHerb, localSum)					// thread local aggregator
+        );
+        
+        Parallel.ForEach(
+            curCarn,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
             {
                 carnEWfood += e.GetEW(Entity.EntityType.food);
                 carnEWHerb += e.GetEW(Entity.EntityType.herbivore);
                 carnEWCarn += e.GetEW(Entity.EntityType.carnivore);
                 carnEWOmni += e.GetEW(Entity.EntityType.omnivore);
-            }
-            
-            if( e.GetEntType() == Entity.EntityType.omnivore)
+                localSum++;
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref numOfCarn, localSum)					// thread local aggregator
+        );
+        
+        Parallel.ForEach(
+            curOmni,					        // source collection
+            () => 0,					        // thread local initializer
+            (e, loopState, localSum) =>		// body
             {
                 omniEWfood += e.GetEW(Entity.EntityType.food);
                 omniEWHerb += e.GetEW(Entity.EntityType.herbivore);
                 omniEWCarn += e.GetEW(Entity.EntityType.carnivore);
                 omniEWOmni += e.GetEW(Entity.EntityType.omnivore);
-            }
-            
-        }
+                localSum++;
+                return localSum;
+            },
+            (localSum) => Interlocked.Add(ref numOfOmni, localSum)					// thread local aggregator
+        );
 
         if (numOfFood != 0)
         {
@@ -658,17 +769,58 @@ public class TestManager : MonoBehaviour
             
             entities?.RemoveAll(e => !e.IsAlive());
             timerCur = timerMax;
-            
-            UpdateEntityInfo();
-            UpdateAverageStats();
-            UpdateWeak();
-            UpdateElites();
-            EliteReproAll();
-            ReproduceSuccessful();
 
-            foreach (Entity e in entities)
+            
+            curFood.Clear();
+            curHerb.Clear();
+            curCarn.Clear();
+            curOmni.Clear();  
+            
+            numOfFood = 0;
+            numOfHerb = 0;
+            numOfCarn = 0;
+            numOfOmni = 0;
+            deadFood = 0;
+            deadHerb = 0;
+            deadCarn = 0;
+            deadOmni = 0;
+
+            if (entities != null)
             {
-                e.ResetMoves();   
+                foreach (Entity e in entities)
+                {
+                    switch (e.GetEntType())
+                    {
+                        case Entity.EntityType.food:
+                            curFood.Add(e);
+                            break;
+
+                        case Entity.EntityType.herbivore:
+                            curHerb.Add(e);
+                            break;
+                        case Entity.EntityType.carnivore:
+                            curCarn.Add(e);
+                            break;
+
+                        case Entity.EntityType.omnivore:
+                            curOmni.Add(e);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+
+                UpdateEntityInfo();
+                UpdateAverageStats();
+                UpdateWeak();
+                UpdateElites();
+                EliteReproAll();
+                ReproduceSuccessful();
+
+                foreach (Entity e in entities)
+                {
+                    e.ResetMoves();
+                }
             }
 
             // If less than 100 bits off food - Reintroduce food
@@ -704,17 +856,10 @@ public class TestManager : MonoBehaviour
                 ReintroducePopulation(Entity.EntityType.omnivore);
                 File.AppendAllText(pathOStat, "\nReintroduction of Omnivores\n");
             }
-
-            numOfFood = 0;
-            numOfHerb = 0;
-            numOfCarn = 0;
-            numOfOmni = 0;
-            deadFood = 0;
-            deadHerb = 0;
-            deadCarn = 0;
-            deadOmni = 0;
             
             currentGeneration++;
+          
+            
         }
     }
     void CreateText(string givenPath)
