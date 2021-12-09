@@ -1215,3 +1215,247 @@ Average Food Stats (Herb): 13 | 8 | 7
 Average Food Stats (Carn): 4 | 2 | 2
 Average Food Stats (Omni): 14 | 9 | 11
 
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 1 | 0 | 0
+Average Food Stats (Herb): 12 | 12 | 12
+Average Food Stats (Carn): 13 | 12 | 13
+Average Food Stats (Omni): 11 | 12 | 14
+
+
+Reintroduction of Food
+Average Food Stats (Food): 33 | 5 | 5
+Average Food Stats (Herb): 16 | 18 | 16
+Average Food Stats (Carn): 4 | 2 | 3
+Average Food Stats (Omni): 16 | 14 | 18
+
+Average Food Stats (Food): 18 | 3 | 2
+Average Food Stats (Herb): 14 | 17 | 15
+Average Food Stats (Carn): 18 | 17 | 18
+Average Food Stats (Omni): 18 | 16 | 18
+
+Average Food Stats (Food): 20 | 2 | 2
+Average Food Stats (Herb): 10 | 10 | 10
+Average Food Stats (Carn): 10 | 10 | 11
+Average Food Stats (Omni): 11 | 10 | 11
+
+Average Food Stats (Food): 21 | 3 | 3
+Average Food Stats (Herb): 8 | 8 | 8
+Average Food Stats (Carn): 11 | 11 | 11
+Average Food Stats (Omni): 12 | 12 | 12
+
+Average Food Stats (Food): 18 | 3 | 3
+Average Food Stats (Herb): 9 | 9 | 9
+Average Food Stats (Carn): 9 | 10 | 10
+Average Food Stats (Omni): 0 | 0 | 0
+
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 2 | 0 | 0
+Average Food Stats (Herb): 17 | 15 | 13
+Average Food Stats (Carn): 15 | 14 | 8
+Average Food Stats (Omni): 14 | 14 | 17
+
+
+Reintroduction of Food
+Average Food Stats (Food): 42 | 6 | 6
+Average Food Stats (Herb): 20 | 20 | 20
+Average Food Stats (Carn): 13 | 14 | 13
+Average Food Stats (Omni): 22 | 23 | 22
+
+Average Food Stats (Food): 12 | 1 | 1
+Average Food Stats (Herb): 13 | 12 | 14
+Average Food Stats (Carn): 15 | 15 | 14
+Average Food Stats (Omni): 17 | 16 | 17
+
+Average Food Stats (Food): 16 | 2 | 2
+Average Food Stats (Herb): 12 | 11 | 12
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 12 | 12 | 11
+
+Average Food Stats (Food): 18 | 2 | 2
+Average Food Stats (Herb): 10 | 9 | 9
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 10 | 9 | 9
+
+Average Food Stats (Food): 15 | 2 | 3
+Average Food Stats (Herb): 10 | 10 | 10
+Average Food Stats (Carn): 11 | 10 | 11
+Average Food Stats (Omni): 5 | 5 | 5
+
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 15 | 14 | 15
+Average Food Stats (Carn): 22 | 22 | 23
+Average Food Stats (Omni): 16 | 15 | 15
+
+Average Food Stats (Food): 19 | 2 | 3
+Average Food Stats (Herb): 12 | 7 | 9
+Average Food Stats (Carn): 11 | 10 | 10
+Average Food Stats (Omni): 11 | 12 | 11
+
+Average Food Stats (Food): 19 | 3 | 4
+Average Food Stats (Herb): 11 | 6 | 8
+Average Food Stats (Carn): 11 | 10 | 10
+Average Food Stats (Omni): 10 | 10 | 10
+
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 3 | 0 | 0
+Average Food Stats (Herb): 9 | 20 | 11
+Average Food Stats (Carn): 10 | 16 | 15
+Average Food Stats (Omni): 15 | 14 | 12
+
+
+Reintroduction of Food
+Average Food Stats (Food): 46 | 6 | 7
+Average Food Stats (Herb): 20 | 25 | 23
+Average Food Stats (Carn): 18 | 26 | 20
+Average Food Stats (Omni): 27 | 22 | 24
+
+
+Reintroduction of Food
+Average Food Stats (Food): 8 | 0 | 1
+Average Food Stats (Herb): 18 | 18 | 14
+Average Food Stats (Carn): 15 | 20 | 16
+Average Food Stats (Omni): 19 | 17 | 16
+
+Average Food Stats (Food): 25 | 3 | 4
+Average Food Stats (Herb): 13 | 12 | 12
+Average Food Stats (Carn): 9 | 9 | 9
+Average Food Stats (Omni): 10 | 10 | 9
+
+Average Food Stats (Food): 26 | 4 | 4
+Average Food Stats (Herb): 1 | 1 | 1
+Average Food Stats (Carn): 14 | 15 | 14
+Average Food Stats (Omni): 14 | 15 | 14
+
+Average Food Stats (Food): 20 | 4 | 4
+Average Food Stats (Herb): 10 | 8 | 10
+Average Food Stats (Carn): 11 | 12 | 11
+Average Food Stats (Omni): 12 | 12 | 10
+
+Average Food Stats (Food): 18 | 3 | 2
+Average Food Stats (Herb): 9 | 7 | 8
+Average Food Stats (Carn): 10 | 10 | 9
+Average Food Stats (Omni): 10 | 9 | 10
+
+Average Food Stats (Food): 21 | 4 | 3
+Average Food Stats (Herb): 5 | 3 | 4
+Average Food Stats (Carn): 11 | 11 | 11
+Average Food Stats (Omni): 13 | 12 | 12
+
+Average Food Stats (Food): 0 | 0 | 0
+Average Food Stats (Herb): 0 | 0 | 0
+Average Food Stats (Carn): 0 | 0 | 0
+Average Food Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Food
+Average Food Stats (Food): 1 | 1 | 0
+Average Food Stats (Herb): 15 | 13 | 12
+Average Food Stats (Carn): 20 | 21 | 15
+Average Food Stats (Omni): 19 | 21 | 14
+
+
+Reintroduction of Food
+Average Food Stats (Food): 41 | 5 | 6
+Average Food Stats (Herb): 21 | 22 | 20
+Average Food Stats (Carn): 21 | 20 | 16
+Average Food Stats (Omni): 22 | 21 | 22
+
+
+Reintroduction of Food
+Average Food Stats (Food): 34 | 5 | 4
+Average Food Stats (Herb): 13 | 12 | 12
+Average Food Stats (Carn): 19 | 20 | 20
+Average Food Stats (Omni): 23 | 22 | 22
+
+Average Food Stats (Food): 22 | 2 | 3
+Average Food Stats (Herb): 14 | 15 | 14
+Average Food Stats (Carn): 5 | 5 | 5
+Average Food Stats (Omni): 14 | 14 | 14
+
+Average Food Stats (Food): 21 | 2 | 3
+Average Food Stats (Herb): 9 | 9 | 9
+Average Food Stats (Carn): 10 | 10 | 10
+Average Food Stats (Omni): 11 | 11 | 11
+
+Average Food Stats (Food): 17 | 4 | 3
+Average Food Stats (Herb): 10 | 10 | 10
+Average Food Stats (Carn): 10 | 10 | 10
+Average Food Stats (Omni): 1 | 1 | 1
+
+Average Food Stats (Food): 14 | 1 | 2
+Average Food Stats (Herb): 18 | 9 | 12
+Average Food Stats (Carn): 13 | 12 | 12
+Average Food Stats (Omni): 8 | 8 | 9
+
+Average Food Stats (Food): 19 | 2 | 3
+Average Food Stats (Herb): 13 | 7 | 9
+Average Food Stats (Carn): 10 | 8 | 10
+Average Food Stats (Omni): 11 | 11 | 12
+
