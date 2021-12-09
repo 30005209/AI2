@@ -793,7 +793,6 @@ public class TestManager : MonoBehaviour
             entities?.RemoveAll(e => !e.IsAlive());
             timerCur = timerMax;
 
-
             curFood = new ConcurrentBag<Entity>();
             curHerb = new ConcurrentBag<Entity>();
             curCarn = new ConcurrentBag<Entity>();
