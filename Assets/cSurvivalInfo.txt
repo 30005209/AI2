@@ -2251,3 +2251,493 @@ Average Carnivore Stats (Herb): 0 | 0 | 0
 Average Carnivore Stats (Carn): 0 | 0 | 0
 Average Carnivore Stats (Omni): 0 | 0 | 0
 
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+Average Carnivore Stats (Food): 0 | 0 | 0
+Average Carnivore Stats (Herb): 0 | 0 | 0
+Average Carnivore Stats (Carn): 0 | 0 | 0
+Average Carnivore Stats (Omni): 0 | 0 | 0
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 4 | 9 | 11
+Average Carnivore Stats (Herb): 14 | 10 | 12
+Average Carnivore Stats (Carn): 5 | 7 | 7
+Average Carnivore Stats (Omni): 15 | 12 | 12
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 5 | 9 | 45
+Average Carnivore Stats (Herb): 19 | 21 | 20
+Average Carnivore Stats (Carn): 24 | 16 | 20
+Average Carnivore Stats (Omni): 19 | 20 | 21
+
+Average Carnivore Stats (Food): 11 | 14 | 36
+Average Carnivore Stats (Herb): 23 | 21 | 13
+Average Carnivore Stats (Carn): 21 | 19 | 19
+Average Carnivore Stats (Omni): 23 | 18 | 20
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 8 | 15 | 32
+Average Carnivore Stats (Herb): 22 | 23 | 12
+Average Carnivore Stats (Carn): 18 | 21 | 20
+Average Carnivore Stats (Omni): 17 | 17 | 19
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 5 | 7 | 31
+Average Carnivore Stats (Herb): 17 | 17 | 14
+Average Carnivore Stats (Carn): 15 | 20 | 16
+Average Carnivore Stats (Omni): 17 | 19 | 12
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 7 | 8 | 43
+Average Carnivore Stats (Herb): 22 | 17 | 17
+Average Carnivore Stats (Carn): 23 | 22 | 19
+Average Carnivore Stats (Omni): 20 | 23 | 14
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 9 | 9 | 34
+Average Carnivore Stats (Herb): 21 | 21 | 13
+Average Carnivore Stats (Carn): 21 | 15 | 18
+Average Carnivore Stats (Omni): 22 | 22 | 12
+
+Average Carnivore Stats (Food): 10 | 12 | 36
+Average Carnivore Stats (Herb): 18 | 26 | 15
+Average Carnivore Stats (Carn): 17 | 23 | 21
+Average Carnivore Stats (Omni): 20 | 21 | 17
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 9 | 10 | 36
+Average Carnivore Stats (Herb): 18 | 22 | 16
+Average Carnivore Stats (Carn): 18 | 19 | 20
+Average Carnivore Stats (Omni): 19 | 18 | 18
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 12 | 12 | 24
+Average Carnivore Stats (Herb): 21 | 15 | 12
+Average Carnivore Stats (Carn): 14 | 19 | 17
+Average Carnivore Stats (Omni): 20 | 16 | 14
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 5 | 7 | 25
+Average Carnivore Stats (Herb): 17 | 14 | 12
+Average Carnivore Stats (Carn): 11 | 13 | 19
+Average Carnivore Stats (Omni): 17 | 17 | 13
+
+Average Carnivore Stats (Food): 4 | 6 | 12
+Average Carnivore Stats (Herb): 13 | 10 | 8
+Average Carnivore Stats (Carn): 10 | 11 | 14
+Average Carnivore Stats (Omni): 12 | 10 | 11
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 4 | 4 | 14
+Average Carnivore Stats (Herb): 9 | 8 | 7
+Average Carnivore Stats (Carn): 12 | 11 | 9
+Average Carnivore Stats (Omni): 13 | 13 | 11
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 6 | 6 | 21
+Average Carnivore Stats (Herb): 15 | 14 | 11
+Average Carnivore Stats (Carn): 13 | 13 | 11
+Average Carnivore Stats (Omni): 12 | 12 | 12
+
+Average Carnivore Stats (Food): 9 | 10 | 19
+Average Carnivore Stats (Herb): 14 | 11 | 12
+Average Carnivore Stats (Carn): 12 | 11 | 14
+Average Carnivore Stats (Omni): 16 | 11 | 12
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 5 | 6 | 13
+Average Carnivore Stats (Herb): 7 | 9 | 7
+Average Carnivore Stats (Carn): 9 | 10 | 12
+Average Carnivore Stats (Omni): 6 | 7 | 7
+
+Average Carnivore Stats (Food): 6 | 13 | 26
+Average Carnivore Stats (Herb): 14 | 17 | 12
+Average Carnivore Stats (Carn): 17 | 15 | 17
+Average Carnivore Stats (Omni): 14 | 18 | 12
+
+Average Carnivore Stats (Food): 5 | 8 | 16
+Average Carnivore Stats (Herb): 11 | 10 | 10
+Average Carnivore Stats (Carn): 8 | 7 | 9
+Average Carnivore Stats (Omni): 10 | 12 | 9
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 4 | 15 | 29
+Average Carnivore Stats (Herb): 19 | 19 | 11
+Average Carnivore Stats (Carn): 17 | 13 | 17
+Average Carnivore Stats (Omni): 17 | 18 | 14
+
+Average Carnivore Stats (Food): 7 | 11 | 20
+Average Carnivore Stats (Herb): 17 | 16 | 12
+Average Carnivore Stats (Carn): 15 | 15 | 16
+Average Carnivore Stats (Omni): 16 | 16 | 16
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 7 | 11 | 25
+Average Carnivore Stats (Herb): 18 | 15 | 12
+Average Carnivore Stats (Carn): 15 | 14 | 16
+Average Carnivore Stats (Omni): 16 | 14 | 15
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 4 | 4 | 20
+Average Carnivore Stats (Herb): 11 | 10 | 8
+Average Carnivore Stats (Carn): 10 | 11 | 11
+Average Carnivore Stats (Omni): 11 | 10 | 10
+
+Average Carnivore Stats (Food): 6 | 9 | 28
+Average Carnivore Stats (Herb): 17 | 15 | 11
+Average Carnivore Stats (Carn): 13 | 12 | 15
+Average Carnivore Stats (Omni): 15 | 17 | 9
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 7 | 10 | 16
+Average Carnivore Stats (Herb): 10 | 11 | 11
+Average Carnivore Stats (Carn): 11 | 9 | 14
+Average Carnivore Stats (Omni): 12 | 11 | 10
+
+Average Carnivore Stats (Food): 5 | 8 | 15
+Average Carnivore Stats (Herb): 12 | 11 | 6
+Average Carnivore Stats (Carn): 11 | 8 | 14
+Average Carnivore Stats (Omni): 8 | 10 | 9
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 5 | 6 | 9
+Average Carnivore Stats (Herb): 9 | 9 | 8
+Average Carnivore Stats (Carn): 9 | 7 | 13
+Average Carnivore Stats (Omni): 5 | 4 | 3
+
+Average Carnivore Stats (Food): 10 | 11 | 14
+Average Carnivore Stats (Herb): 14 | 13 | 12
+Average Carnivore Stats (Carn): 12 | 9 | 17
+Average Carnivore Stats (Omni): 16 | 12 | 10
+
+Average Carnivore Stats (Food): 14 | 15 | 18
+Average Carnivore Stats (Herb): 16 | 17 | 15
+Average Carnivore Stats (Carn): 14 | 13 | 21
+Average Carnivore Stats (Omni): 17 | 16 | 16
+
+Average Carnivore Stats (Food): 9 | 11 | 14
+Average Carnivore Stats (Herb): 13 | 13 | 10
+Average Carnivore Stats (Carn): 12 | 9 | 16
+Average Carnivore Stats (Omni): 15 | 12 | 10
+
+Average Carnivore Stats (Food): 7 | 8 | 10
+Average Carnivore Stats (Herb): 9 | 11 | 8
+Average Carnivore Stats (Carn): 8 | 5 | 15
+Average Carnivore Stats (Omni): 8 | 10 | 10
+
+Average Carnivore Stats (Food): 7 | 10 | 15
+Average Carnivore Stats (Herb): 12 | 14 | 8
+Average Carnivore Stats (Carn): 11 | 7 | 18
+Average Carnivore Stats (Omni): 10 | 13 | 8
+
+Average Carnivore Stats (Food): 6 | 8 | 13
+Average Carnivore Stats (Herb): 14 | 12 | 10
+Average Carnivore Stats (Carn): 8 | 8 | 18
+Average Carnivore Stats (Omni): 12 | 12 | 11
+
+Average Carnivore Stats (Food): 8 | 10 | 14
+Average Carnivore Stats (Herb): 13 | 12 | 11
+Average Carnivore Stats (Carn): 10 | 7 | 18
+Average Carnivore Stats (Omni): 14 | 12 | 10
+
+Average Carnivore Stats (Food): 4 | 9 | 22
+Average Carnivore Stats (Herb): 14 | 12 | 10
+Average Carnivore Stats (Carn): 15 | 6 | 19
+Average Carnivore Stats (Omni): 16 | 17 | 6
+
+Average Carnivore Stats (Food): 7 | 9 | 18
+Average Carnivore Stats (Herb): 13 | 13 | 10
+Average Carnivore Stats (Carn): 13 | 8 | 13
+Average Carnivore Stats (Omni): 10 | 11 | 9
+
+Average Carnivore Stats (Food): 7 | 12 | 19
+Average Carnivore Stats (Herb): 14 | 13 | 12
+Average Carnivore Stats (Carn): 13 | 9 | 17
+Average Carnivore Stats (Omni): 12 | 16 | 10
+
+Average Carnivore Stats (Food): 9 | 13 | 20
+Average Carnivore Stats (Herb): 15 | 15 | 14
+Average Carnivore Stats (Carn): 11 | 13 | 17
+Average Carnivore Stats (Omni): 14 | 16 | 13
+
+Average Carnivore Stats (Food): 5 | 9 | 14
+Average Carnivore Stats (Herb): 14 | 9 | 7
+Average Carnivore Stats (Carn): 3 | 7 | 4
+Average Carnivore Stats (Omni): 11 | 15 | 6
+
+Average Carnivore Stats (Food): 7 | 9 | 12
+Average Carnivore Stats (Herb): 12 | 8 | 10
+Average Carnivore Stats (Carn): 10 | 10 | 12
+Average Carnivore Stats (Omni): 11 | 11 | 12
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 7 | 13 | 25
+Average Carnivore Stats (Herb): 23 | 14 | 11
+Average Carnivore Stats (Carn): 15 | 14 | 16
+Average Carnivore Stats (Omni): 16 | 16 | 13
+
+Average Carnivore Stats (Food): 9 | 9 | 13
+Average Carnivore Stats (Herb): 12 | 11 | 10
+Average Carnivore Stats (Carn): 11 | 11 | 11
+Average Carnivore Stats (Omni): 10 | 12 | 9
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 9 | 14 | 20
+Average Carnivore Stats (Herb): 14 | 15 | 10
+Average Carnivore Stats (Carn): 14 | 12 | 17
+Average Carnivore Stats (Omni): 15 | 16 | 13
+
+Average Carnivore Stats (Food): 7 | 8 | 14
+Average Carnivore Stats (Herb): 11 | 10 | 10
+Average Carnivore Stats (Carn): 8 | 10 | 12
+Average Carnivore Stats (Omni): 10 | 9 | 10
+
+Average Carnivore Stats (Food): 8 | 11 | 22
+Average Carnivore Stats (Herb): 14 | 15 | 11
+Average Carnivore Stats (Carn): 12 | 12 | 16
+Average Carnivore Stats (Omni): 9 | 8 | 9
+
+Average Carnivore Stats (Food): 4 | 6 | 9
+Average Carnivore Stats (Herb): 11 | 11 | 11
+Average Carnivore Stats (Carn): 9 | 8 | 14
+Average Carnivore Stats (Omni): 12 | 11 | 9
+
+Average Carnivore Stats (Food): 4 | 11 | 17
+Average Carnivore Stats (Herb): 11 | 14 | 9
+Average Carnivore Stats (Carn): 10 | 8 | 13
+Average Carnivore Stats (Omni): 13 | 14 | 11
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 8 | 8 | 13
+Average Carnivore Stats (Herb): 9 | 11 | 9
+Average Carnivore Stats (Carn): 3 | 2 | 5
+Average Carnivore Stats (Omni): 10 | 11 | 8
+
+Average Carnivore Stats (Food): 10 | 10 | 15
+Average Carnivore Stats (Herb): 14 | 17 | 9
+Average Carnivore Stats (Carn): 13 | 9 | 21
+Average Carnivore Stats (Omni): 17 | 16 | 11
+
+Average Carnivore Stats (Food): 8 | 7 | 10
+Average Carnivore Stats (Herb): 7 | 10 | 7
+Average Carnivore Stats (Carn): 8 | 5 | 11
+Average Carnivore Stats (Omni): 8 | 8 | 7
+
+Average Carnivore Stats (Food): 7 | 9 | 11
+Average Carnivore Stats (Herb): 13 | 13 | 9
+Average Carnivore Stats (Carn): 12 | 7 | 17
+Average Carnivore Stats (Omni): 15 | 11 | 9
+
+Average Carnivore Stats (Food): 10 | 11 | 15
+Average Carnivore Stats (Herb): 9 | 9 | 7
+Average Carnivore Stats (Carn): 11 | 9 | 16
+Average Carnivore Stats (Omni): 15 | 13 | 11
+
+Average Carnivore Stats (Food): 6 | 10 | 11
+Average Carnivore Stats (Herb): 9 | 10 | 9
+Average Carnivore Stats (Carn): 8 | 8 | 13
+Average Carnivore Stats (Omni): 12 | 10 | 11
+
+Average Carnivore Stats (Food): 4 | 6 | 10
+Average Carnivore Stats (Herb): 9 | 11 | 7
+Average Carnivore Stats (Carn): 8 | 5 | 12
+Average Carnivore Stats (Omni): 9 | 9 | 8
+
+Average Carnivore Stats (Food): 7 | 8 | 10
+Average Carnivore Stats (Herb): 11 | 9 | 9
+Average Carnivore Stats (Carn): 10 | 8 | 11
+Average Carnivore Stats (Omni): 9 | 11 | 7
+
+Average Carnivore Stats (Food): 8 | 9 | 15
+Average Carnivore Stats (Herb): 10 | 11 | 10
+Average Carnivore Stats (Carn): 10 | 7 | 13
+Average Carnivore Stats (Omni): 11 | 10 | 8
+
+Average Carnivore Stats (Food): 4 | 8 | 17
+Average Carnivore Stats (Herb): 8 | 8 | 8
+Average Carnivore Stats (Carn): 11 | 7 | 14
+Average Carnivore Stats (Omni): 12 | 10 | 8
+
+Average Carnivore Stats (Food): 4 | 7 | 16
+Average Carnivore Stats (Herb): 10 | 11 | 9
+Average Carnivore Stats (Carn): 12 | 11 | 13
+Average Carnivore Stats (Omni): 14 | 16 | 9
+
+Average Carnivore Stats (Food): 7 | 9 | 27
+Average Carnivore Stats (Herb): 14 | 17 | 15
+Average Carnivore Stats (Carn): 16 | 13 | 18
+Average Carnivore Stats (Omni): 14 | 16 | 15
+
+Average Carnivore Stats (Food): 8 | 10 | 29
+Average Carnivore Stats (Herb): 14 | 15 | 16
+Average Carnivore Stats (Carn): 18 | 12 | 15
+Average Carnivore Stats (Omni): 14 | 15 | 17
+
+Average Carnivore Stats (Food): 4 | 10 | 23
+Average Carnivore Stats (Herb): 10 | 16 | 14
+Average Carnivore Stats (Carn): 14 | 11 | 16
+Average Carnivore Stats (Omni): 14 | 13 | 13
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 5 | 9 | 43
+Average Carnivore Stats (Herb): 19 | 15 | 22
+Average Carnivore Stats (Carn): 19 | 19 | 18
+Average Carnivore Stats (Omni): 23 | 19 | 17
+
+Average Carnivore Stats (Food): 8 | 12 | 19
+Average Carnivore Stats (Herb): 18 | 15 | 12
+Average Carnivore Stats (Carn): 12 | 10 | 13
+Average Carnivore Stats (Omni): 17 | 18 | 12
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 5 | 8 | 24
+Average Carnivore Stats (Herb): 13 | 15 | 11
+Average Carnivore Stats (Carn): 13 | 14 | 13
+Average Carnivore Stats (Omni): 14 | 15 | 12
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 5 | 11 | 28
+Average Carnivore Stats (Herb): 15 | 15 | 15
+Average Carnivore Stats (Carn): 16 | 15 | 17
+Average Carnivore Stats (Omni): 16 | 16 | 15
+
+Average Carnivore Stats (Food): 6 | 7 | 9
+Average Carnivore Stats (Herb): 7 | 9 | 8
+Average Carnivore Stats (Carn): 11 | 11 | 11
+Average Carnivore Stats (Omni): 13 | 15 | 13
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 7 | 9 | 12
+Average Carnivore Stats (Herb): 12 | 13 | 10
+Average Carnivore Stats (Carn): 10 | 10 | 15
+Average Carnivore Stats (Omni): 10 | 12 | 10
+
+Average Carnivore Stats (Food): 8 | 10 | 16
+Average Carnivore Stats (Herb): 14 | 13 | 10
+Average Carnivore Stats (Carn): 8 | 8 | 11
+Average Carnivore Stats (Omni): 13 | 13 | 11
+
+
+Reintroduction of Carnivores
+Average Carnivore Stats (Food): 8 | 13 | 21
+Average Carnivore Stats (Herb): 17 | 15 | 11
+Average Carnivore Stats (Carn): 11 | 10 | 20
+Average Carnivore Stats (Omni): 15 | 16 | 14
+
+Average Carnivore Stats (Food): 6 | 9 | 12
+Average Carnivore Stats (Herb): 10 | 11 | 8
+Average Carnivore Stats (Carn): 7 | 7 | 13
+Average Carnivore Stats (Omni): 10 | 9 | 9
+
+Average Carnivore Stats (Food): 6 | 7 | 13
+Average Carnivore Stats (Herb): 5 | 3 | 3
+Average Carnivore Stats (Carn): 2 | 2 | 3
+Average Carnivore Stats (Omni): 12 | 12 | 8
+

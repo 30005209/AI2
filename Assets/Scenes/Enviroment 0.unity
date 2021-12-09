@@ -372,8 +372,8 @@ MonoBehaviour:
   timerCur: 0
   timerMax: 5
   allowHerbivores: 1
-  allowCarnivores: 0
-  allowOmnivores: 0
+  allowCarnivores: 1
+  allowOmnivores: 1
   currentGeneration: 0
   numOfFood: 0
   numOfHerb: 0
