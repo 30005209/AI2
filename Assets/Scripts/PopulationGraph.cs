@@ -25,31 +25,31 @@ public class PopulationGraph : MonoBehaviour
     [SerializeField] private float xSize = 5f;
     [SerializeField] private TestManager Enviroment = null;
     [SerializeField] private Sprite circleSprite;
-    [SerializeField] private Color dotColourAvg;
-    [SerializeField] private Color lineColorAvg;
+    [SerializeField] private Color dotColourAvg = new Color();
+    [SerializeField] private Color lineColorAvg = new Color();
     private RectTransform graphContainer;
     private Color dotColour;
     private Color lineColor;
     
     [Header("Food")]
-    [SerializeField] private Color dotColourFood;
-    [SerializeField] private Color lineColorFood;
+    [SerializeField] private Color dotColourFood = new Color();
+    [SerializeField] private Color lineColorFood = new Color();
     [Header("Herbivore")]
-    [SerializeField] private Color dotColourHerb;
-    [SerializeField] private Color lineColorHerb;
+    [SerializeField] private Color dotColourHerb = new Color();
+    [SerializeField] private Color lineColorHerb = new Color();
     [Header("Carnivore")]
-    [SerializeField] private Color dotColourCarn;
-    [SerializeField] private Color lineColorCarn;
+    [SerializeField] private Color dotColourCarn = new Color();
+    [SerializeField] private Color lineColorCarn = new Color();
     [Header("Omnivore")]
-    [SerializeField] private Color dotColourOmni;
-    [SerializeField] private Color lineColorOmni;
+    [SerializeField] private Color dotColourOmni = new Color();
+    [SerializeField] private Color lineColorOmni = new Color();
 
     [Header("Population Information")]
-    [SerializeField] private List<int> popFood;
-    [SerializeField] private List<int> popHerb;
-    [SerializeField] private List<int> popCarn;
-    [SerializeField] private List<int> popOmni;
-    [SerializeField] private List<int> popAvg;
+    [SerializeField] private List<int> popFood = new List<int>();
+    [SerializeField] private List<int> popHerb = new List<int>();
+    [SerializeField] private List<int> popCarn = new List<int>();
+    [SerializeField] private List<int> popOmni = new List<int>();
+    [SerializeField] private List<int> popAvg = new List<int>();
     [SerializeField] private int curGeneration = 0;
 
     private void Awake() 

@@ -93,13 +93,9 @@ public class TestManager : MonoBehaviour
     [SerializeField] public List<Entity> entities;
     [NonSerialized] public System.Random random;
 
-    private string pathFInfo;
     private string pathFStat;
-    private string pathHInfo;
     private string pathHStat;
-    private string pathCInfo;
     private string pathCStat;
-    private string pathOInfo;
     private string pathOStat;
 
     // Average amount of energy found in each type of entity
@@ -134,19 +130,10 @@ public class TestManager : MonoBehaviour
     {
         random = new System.Random();
 
-        pathFInfo = Application.dataPath + "/fSurvivalInfo.txt";
         pathFStat = Application.dataPath + "/fStatInfo.txt";
         pathHStat = Application.dataPath + "/hSurvivalInfo.txt";
-        pathHInfo = Application.dataPath + "/hStatInfo.txt";
         pathCStat = Application.dataPath + "/cSurvivalInfo.txt";
-        pathCInfo = Application.dataPath + "/cStatInfo.txt";
         pathOStat = Application.dataPath + "/oSurvivalInfo.txt";
-        pathOInfo = Application.dataPath + "/oStatInfo.txt";
-
-        //CreateText(pathFInfo);
-        //CreateText(pathHInfo);
-        //CreateText(pathCInfo);
-        //CreateText(pathOInfo);
 
         CreateText(pathFStat);
         CreateText(pathHStat);
@@ -325,7 +312,6 @@ public class TestManager : MonoBehaviour
             count = entities.FindAll(e => e.GetEntType() == type).Count;
             UpdateElites();
 
-            int sum = 0;
             switch (type)
             {
                 case Entity.EntityType.food:
