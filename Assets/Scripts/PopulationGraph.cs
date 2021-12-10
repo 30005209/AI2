@@ -18,11 +18,18 @@ using System.Security;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopulationGraph : MonoBehaviour {
-
+public class PopulationGraph : MonoBehaviour 
+{
+    [Header("Graph Information")]
+    [SerializeField] private float yMaximum = 100f;
+    [SerializeField] private float xSize = 5f;
+    [SerializeField] private TestManager Enviroment = null;
     [SerializeField] private Sprite circleSprite;
+    [SerializeField] private Color dotColourAvg;
+    [SerializeField] private Color lineColorAvg;
     private RectTransform graphContainer;
-    
+    private Color dotColour;
+    private Color lineColor;
     
     [Header("Food")]
     [SerializeField] private Color dotColourFood;
@@ -36,17 +43,13 @@ public class PopulationGraph : MonoBehaviour {
     [Header("Omnivore")]
     [SerializeField] private Color dotColourOmni;
     [SerializeField] private Color lineColorOmni;
-    
-    private Color dotColour;
-    private Color lineColor;
-    
-    [SerializeField] private float yMaximum = 100f;
-    [SerializeField] private float xSize = 5f;
-    [SerializeField] private TestManager Enviroment = null;
+
+    [Header("Population Information")]
     [SerializeField] private List<int> popFood;
     [SerializeField] private List<int> popHerb;
     [SerializeField] private List<int> popCarn;
     [SerializeField] private List<int> popOmni;
+    [SerializeField] private List<int> popAvg;
     [SerializeField] private int curGeneration = 0;
 
     private void Awake() 
@@ -57,11 +60,13 @@ public class PopulationGraph : MonoBehaviour {
         popHerb = new List<int>();
         popCarn = new List<int>();
         popOmni = new List<int>();
+        popAvg = new List<int>();
 
         ShowGraph(popFood);
         ShowGraph(popHerb);
         ShowGraph(popCarn);
         ShowGraph(popOmni);
+        ShowGraph(popAvg);
     }
 
     private void UpdateColor(Color dot, Color line)
@@ -77,6 +82,9 @@ public class PopulationGraph : MonoBehaviour {
             AddToList(Entity.EntityType.herbivore);
             AddToList(Entity.EntityType.carnivore);
             AddToList(Entity.EntityType.omnivore);
+            popAvg.Add( (popFood[curGeneration] + popHerb[curGeneration] +
+                          popCarn[curGeneration] + popOmni[curGeneration]) / 4);
+
             curGeneration++;
             
             UpdateColor(dotColourFood, lineColorFood);
@@ -90,6 +98,9 @@ public class PopulationGraph : MonoBehaviour {
             
             UpdateColor(dotColourOmni, lineColorOmni);
             ShowGraph(popOmni);
+
+            UpdateColor(dotColourAvg, lineColorAvg);
+            ShowGraph(popAvg);
         }
     }
 
@@ -133,7 +144,8 @@ public class PopulationGraph : MonoBehaviour {
         float graphHeight = graphContainer.sizeDelta.y;
 
         GameObject lastCircleGameObject = null;
-        for (int i = 0; i < valueList.Count; i++) {
+        for (int i = 0; i < valueList.Count; i++) 
+        {
             float xPosition = i * xSize;
             float yPosition = (valueList[i] / yMaximum) * graphHeight;
             GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition));
@@ -159,5 +171,4 @@ public class PopulationGraph : MonoBehaviour {
         rectTransform.anchoredPosition = dotPositionA + dir * distance * .5f;
         rectTransform.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(dir.y, dir.x) * 180 / Mathf.PI);
     }
-
 }
