@@ -164,7 +164,6 @@ public class TestManager : MonoBehaviour
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type), type, null);
                 }
-
             }
         }
         else
@@ -173,8 +172,6 @@ public class TestManager : MonoBehaviour
             UpdateElites();
             EliteRepro(type);
         }
-
-
     }
 
     void Update()
@@ -297,7 +294,6 @@ public class TestManager : MonoBehaviour
                         weakOmni.Add(e);
                     }
                 }
-
                 return localSum;
             },
             (localSum) => Interlocked.Add(ref sum, localSum)
@@ -333,7 +329,6 @@ public class TestManager : MonoBehaviour
                             }
                         }
                     }
-
                     break;
 
                 case Entity.EntityType.herbivore:
@@ -355,7 +350,6 @@ public class TestManager : MonoBehaviour
                             }
                         }
                     }
-
                     break;
 
                 case Entity.EntityType.carnivore:
@@ -377,7 +371,6 @@ public class TestManager : MonoBehaviour
                             }
                         }
                     }
-
                     break;
 
                 case Entity.EntityType.omnivore:
@@ -399,7 +392,6 @@ public class TestManager : MonoBehaviour
                             }
                         }
                     }
-
                     break;
 
                 default:
@@ -520,7 +512,6 @@ public class TestManager : MonoBehaviour
 
                             e.NightReproduce(reproFood.ToArray()[random.Next(reproFood.Count - 1)]);
                         }
-
                         return localSum;
                     },
                     (localSum) => Interlocked.Add(ref sum, localSum)  
@@ -762,11 +753,15 @@ public class TestManager : MonoBehaviour
 
         if (timerCur < 0)
         {
+            // Reset all the information
             ResetInfo();
 
+            // Should entities not be null remove all failing the IsAlive function from entities
             entities?.RemoveAll(e => !e.IsAlive());
+            
+            // Reset timer
             timerCur = timerMax;
-
+            
             curFood = new ConcurrentBag<Entity>();
             curHerb = new ConcurrentBag<Entity>();
             curCarn = new ConcurrentBag<Entity>();
