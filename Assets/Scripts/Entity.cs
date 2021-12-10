@@ -11,6 +11,8 @@ using UnityEngine.UIElements;
 
 public class Entity : MonoBehaviour
 {
+    
+    // An enum to quickly identify the current type of an Entity
     [System.Serializable]
     public enum EntityType
     {
@@ -19,7 +21,8 @@ public class Entity : MonoBehaviour
         carnivore = 2,
         omnivore = 3
     }
-
+    
+    // An enum to quickly identify the current course of action taken by an entity
     [System.Serializable]
     public enum ActionType
     {
@@ -28,31 +31,35 @@ public class Entity : MonoBehaviour
         hide = 2
     }
 
+    // A collection of ints held in a list to denote probability of a course of action
     [System.Serializable]
     public struct EventWeight
     {
-        public List<int> actions;
-        public int curTotal;
+        public List<int> actions;   // Possible Actions
+        public int curTotal;        // The current total weightings of actions
 
+        // Overloaded + operator to enable combination of EntityWeight
         public static EventWeight operator +(EventWeight a, EventWeight b)
             => new EventWeight(
                 a.actions[(int)ActionType.eat] + b.actions[(int)ActionType.eat], 
                 a.actions[(int)ActionType.fight] + b.actions[(int)ActionType.fight],
                 a.actions[(int)ActionType.hide] + b.actions[(int)ActionType.hide]);
 
+        // Overloaded + operator to enable combination division of EntityWeight
         public static EventWeight operator /(EventWeight a, int b)
             => new EventWeight(a.actions[(int) ActionType.eat] / b,
                 a.actions[(int) ActionType.fight] / b,
                 a.actions[(int) ActionType.hide] / b);
 
         
+        // Default initialisation 
         public EventWeight(int eat, int fight, int hide)
         {
-            actions = new List<int> {eat, fight, hide};
-
-            this.curTotal = 10000;
+            actions = new List<int> {eat, fight, hide};     
+            this.curTotal = 10000;                          // Acts as a sentinel value 
         }
         
+        // Updates the current update total
         public void UpdateTotal()
         {
             this.curTotal = 0;
@@ -61,22 +68,26 @@ public class Entity : MonoBehaviour
                 this.curTotal += i;
             }
 
-            if (curTotal > 120)
+            // Should the total exceed 120 equally reduce the current value
+            if (curTotal > 120)                             
             {
                 actions[(int) ActionType.eat] -= 10;
-                actions[(int) ActionType.fight] -= 10;
+                actions[(int) ActionType.fight] -= 10;  
                 actions[(int) ActionType.hide] -= 10;
             }
         }
 
+        // Gets the total
         public int GetTotal()
         {
             UpdateTotal();
             return curTotal;
         }
-
+        
+        // Retrieve a specific action type decided by an int input
         public ActionType GetChoice(int input)
         {
+            // Defaulted to hide
             ActionType choiceMade = ActionType.hide;
 
             if (input > 0) choiceMade = ActionType.eat;
@@ -90,6 +101,7 @@ public class Entity : MonoBehaviour
             return choiceMade;
         }
 
+        // Add given weight (in step of 40)
         public void AddWeight(ActionType givenType)
         {
             actions[(int) givenType] += 40;
@@ -97,6 +109,7 @@ public class Entity : MonoBehaviour
             UpdateTotal();
         }
 
+        // Remove a given weight (in step of 40)
         public void RemoveWeight(ActionType givenType)
         {
             actions[(int)givenType] -= 40;
@@ -104,6 +117,7 @@ public class Entity : MonoBehaviour
             UpdateTotal();
         }
         
+        // Output all EventWeights as a string seperated by 
         public string OutputEWStats()
         {
             string output = null;
@@ -143,11 +157,13 @@ public class Entity : MonoBehaviour
 
     public string causeOfDeath = "";
     
+    // Getter for Entity Type
     public EntityType GetEntType()
     {
         return this.type;
     }
-
+    
+    // Retrive the reference for the event weight for a given targetted entity
     public ref EventWeight GetTargEW(Entity target)
     {
         switch (target.GetEntType())
@@ -169,6 +185,7 @@ public class Entity : MonoBehaviour
         }
     }
 
+    // Retrive the value for the event weight for a given targetted entity
     public EventWeight GetEW(EntityType target)
     {
         switch (target)
@@ -237,6 +254,7 @@ public class Entity : MonoBehaviour
         this.mustAct = newVal;
     }
 
+    // Return a referecne to the event weight of a given type
     protected ref EventWeight GetEw(EntityType eType)
     {
         while (true)

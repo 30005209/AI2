@@ -93,13 +93,9 @@ public class TestManager : MonoBehaviour
     [SerializeField] public List<Entity> entities;
     [NonSerialized] public System.Random random;
 
-    private string pathFInfo;
     private string pathFStat;
-    private string pathHInfo;
     private string pathHStat;
-    private string pathCInfo;
     private string pathCStat;
-    private string pathOInfo;
     private string pathOStat;
 
     // Average amount of energy found in each type of entity
@@ -134,19 +130,10 @@ public class TestManager : MonoBehaviour
     {
         random = new System.Random();
 
-        pathFInfo = Application.dataPath + "/fSurvivalInfo.txt";
         pathFStat = Application.dataPath + "/fStatInfo.txt";
         pathHStat = Application.dataPath + "/hSurvivalInfo.txt";
-        pathHInfo = Application.dataPath + "/hStatInfo.txt";
         pathCStat = Application.dataPath + "/cSurvivalInfo.txt";
-        pathCInfo = Application.dataPath + "/cStatInfo.txt";
         pathOStat = Application.dataPath + "/oSurvivalInfo.txt";
-        pathOInfo = Application.dataPath + "/oStatInfo.txt";
-
-        //CreateText(pathFInfo);
-        //CreateText(pathHInfo);
-        //CreateText(pathCInfo);
-        //CreateText(pathOInfo);
 
         CreateText(pathFStat);
         CreateText(pathHStat);
@@ -177,7 +164,6 @@ public class TestManager : MonoBehaviour
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type), type, null);
                 }
-
             }
         }
         else
@@ -186,8 +172,6 @@ public class TestManager : MonoBehaviour
             UpdateElites();
             EliteRepro(type);
         }
-
-
     }
 
     void Update()
@@ -259,9 +243,9 @@ public class TestManager : MonoBehaviour
     {
         int sum = 0;
         Parallel.ForEach(
-            entities, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            entities,
+            () => 0,
+            (e, loopState, localSum) =>
             {
                 if (e.GetEntType() == Entity.EntityType.food)
                 {
@@ -310,10 +294,9 @@ public class TestManager : MonoBehaviour
                         weakOmni.Add(e);
                     }
                 }
-
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref sum, localSum)
         );
     }
 
@@ -325,7 +308,6 @@ public class TestManager : MonoBehaviour
             count = entities.FindAll(e => e.GetEntType() == type).Count;
             UpdateElites();
 
-            int sum = 0;
             switch (type)
             {
                 case Entity.EntityType.food:
@@ -347,7 +329,6 @@ public class TestManager : MonoBehaviour
                             }
                         }
                     }
-
                     break;
 
                 case Entity.EntityType.herbivore:
@@ -369,7 +350,6 @@ public class TestManager : MonoBehaviour
                             }
                         }
                     }
-
                     break;
 
                 case Entity.EntityType.carnivore:
@@ -391,7 +371,6 @@ public class TestManager : MonoBehaviour
                             }
                         }
                     }
-
                     break;
 
                 case Entity.EntityType.omnivore:
@@ -413,7 +392,6 @@ public class TestManager : MonoBehaviour
                             }
                         }
                     }
-
                     break;
 
                 default:
@@ -433,51 +411,51 @@ public class TestManager : MonoBehaviour
     private void UpdateEntityInfo()
     {
         Parallel.ForEach(
-            curFood, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            curFood,
+            () => 0,
+            (e, loopState, localSum) =>
             {
                 localSum += e.GetEnergyCur();
                 numOfFood++;
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref averageFood, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref averageFood, localSum)
         );
 
         Parallel.ForEach(
-            curHerb, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            curHerb,
+            () => 0, 
+            (e, loopState, localSum) =>
             {
                 localSum += e.GetEnergyCur();
                 numOfHerb++;
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref averageHerb, localSum) // thread local aggregator
-        );
+            (localSum) => Interlocked.Add(ref averageHerb, localSum)
+            );
 
         Parallel.ForEach(
-            curCarn, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            curCarn,
+            () => 0,
+            (e, loopState, localSum) =>
             {
                 localSum += e.GetEnergyCur();
                 numOfCarn++;
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref averageCarn, localSum) // thread local aggregator
-        );
+            (localSum) => Interlocked.Add(ref averageCarn, localSum))
+            ;
 
         Parallel.ForEach(
-            curOmni, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            curOmni,
+            () => 0,  
+            (e, loopState, localSum) =>  
             {
                 localSum += e.GetEnergyCur();
                 numOfOmni++;
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref averageOmni, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref averageOmni, localSum)  
         );
 
         if (numOfFood != 0)
@@ -507,14 +485,6 @@ public class TestManager : MonoBehaviour
             eliteOmniAmount = averageOmni * 0.7f;
             weakOmniAmount = averageOmni * 0.3f;
         }
-
-
-        //File.AppendAllText(pathFStat, "\nNewGeneration (Died:" + deadFood.ToString() + ")(New Total Pop: "
-        //                              + numOfFood.ToString() + "):\n" + "Average: " + averageFood.ToString());
-
-        //File.AppendAllText(pathHInfo, "\nNewGeneration (Died:" + deadHerb.ToString() + ")(New Total Pop: "
-        //                              + numOfHerb.ToString() + "):\n" + "Average: " + averageHerb.ToString());
-
     }
 
     private void ReproduceSuccessful()
@@ -532,9 +502,9 @@ public class TestManager : MonoBehaviour
         {
             case Entity.EntityType.food:
                 Parallel.ForEach(
-                    reproFood, // source collection
-                    () => 0, // thread local initializer
-                    (e, loopState, localSum) => // body
+                    reproFood,
+                    () => 0, 
+                    (e, loopState, localSum) => 
                     {
                         if (e.GetEnergyCur() > e.GetEnergyStart() && reproFood.Count < 400)
                         {
@@ -542,19 +512,18 @@ public class TestManager : MonoBehaviour
 
                             e.NightReproduce(reproFood.ToArray()[random.Next(reproFood.Count - 1)]);
                         }
-
                         return localSum;
                     },
-                    (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
-                );
+                    (localSum) => Interlocked.Add(ref sum, localSum)  
+                    );
                 break;
 
             case Entity.EntityType.herbivore:
                 // Reproduction Successful Herb
                 Parallel.ForEach(
-                    reproFood, // source collection
-                    () => 0, // thread local initializer
-                    (e, loopState, localSum) => // body
+                    reproFood,  
+                    () => 0,  
+                    (e, loopState, localSum) => 
                     {
                         if (e.GetEnergyCur() > e.GetEnergyStart() && reproHerb.Count < 100)
                         {
@@ -564,16 +533,16 @@ public class TestManager : MonoBehaviour
 
                         return localSum;
                     },
-                    (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
+                    (localSum) => Interlocked.Add(ref sum, localSum)
                 );
                 break;
 
             case Entity.EntityType.carnivore:
                 // Reproduction Successful Carn
                 Parallel.ForEach(
-                    reproCarn, // source collection
-                    () => 0, // thread local initializer
-                    (e, loopState, localSum) => // body
+                    reproCarn, 
+                    () => 0, 
+                    (e, loopState, localSum) =>
                     {
                         if (e.GetEnergyCur() > e.GetEnergyStart() && reproCarn.Count < 100)
                         {
@@ -583,16 +552,16 @@ public class TestManager : MonoBehaviour
 
                         return localSum;
                     },
-                    (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
+                    (localSum) => Interlocked.Add(ref sum, localSum)
                 );
                 break;
 
             case Entity.EntityType.omnivore:
                 // Reproduction Successful Carn
                 Parallel.ForEach(
-                    reproOmni, // source collection
-                    () => 0, // thread local initializer
-                    (e, loopState, localSum) => // body
+                    reproOmni,
+                    () => 0,
+                    (e, loopState, localSum) => 
                     {
                         if (e.GetEnergyCur() > e.GetEnergyStart() && reproOmni.Count < 20)
                         {
@@ -602,7 +571,7 @@ public class TestManager : MonoBehaviour
 
                         return localSum;
                     },
-                    (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
+                    (localSum) => Interlocked.Add(ref sum, localSum)
                 );
                 break;
             default:
@@ -614,64 +583,60 @@ public class TestManager : MonoBehaviour
     {
         int sum = 0;
         Parallel.ForEach(
-            weakFood, // source collection
-            () => 0, // thread local initializer
-            (f, loopState, localSum) => // body
+            weakFood,
+            () => 0,
+            (f, loopState, localSum) =>
             {
                 f.SetAlive(false);
                 f.causeOfDeath = "Weak";
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref sum, localSum)
         );
 
         Parallel.ForEach(
-            weakHerb, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            weakHerb, 
+            () => 0,
+            (e, loopState, localSum) => 
             {
                 e.SetAlive(false);
                 e.causeOfDeath = "Weak";
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref sum, localSum) 
         );
 
         Parallel.ForEach(
-            weakCarn, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            weakCarn,
+            () => 0, 
+            (e, loopState, localSum) =>
             {
                 e.SetAlive(false);
                 e.causeOfDeath = "Weak";
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref sum, localSum)
         );
 
         Parallel.ForEach(
-            weakOmni, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            weakOmni, 
+            () => 0, 
+            (e, loopState, localSum) => 
             {
                 e.SetAlive(false);
                 e.causeOfDeath = "Weak";
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref sum, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref sum, localSum) 
         );
-
-
-        //File.AppendAllText(pathFStat, "\nWeak (Pop: " + weakFood.Count.ToString() 
-        //                                              + ") Reaching " + weakFoodAmount.ToString().ToString() + "\n");
     }
 
     private void UpdateAverageStats()
     {
         Parallel.ForEach(
-            curFood, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            curFood,
+            () => 0, 
+            (e, loopState, localSum) => 
             {
                 foodEWfood += e.GetEW(Entity.EntityType.food);
                 foodEWHerb += e.GetEW(Entity.EntityType.herbivore);
@@ -680,13 +645,13 @@ public class TestManager : MonoBehaviour
                 localSum++;
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref numOfFood, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref numOfFood, localSum)
         );
 
         Parallel.ForEach(
-            curHerb, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            curHerb, 
+            () => 0, 
+            (e, loopState, localSum) => 
             {
                 herbEWfood += e.GetEW(Entity.EntityType.food);
                 herbEWHerb += e.GetEW(Entity.EntityType.herbivore);
@@ -695,13 +660,13 @@ public class TestManager : MonoBehaviour
                 localSum++;
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref numOfHerb, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref numOfHerb, localSum)
         );
 
         Parallel.ForEach(
-            curCarn, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            curCarn,
+            () => 0,
+            (e, loopState, localSum) =>
             {
                 carnEWfood += e.GetEW(Entity.EntityType.food);
                 carnEWHerb += e.GetEW(Entity.EntityType.herbivore);
@@ -710,13 +675,13 @@ public class TestManager : MonoBehaviour
                 localSum++;
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref numOfCarn, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref numOfCarn, localSum)
         );
 
         Parallel.ForEach(
-            curOmni, // source collection
-            () => 0, // thread local initializer
-            (e, loopState, localSum) => // body
+            curOmni,
+            () => 0, 
+            (e, loopState, localSum) => 
             {
                 omniEWfood += e.GetEW(Entity.EntityType.food);
                 omniEWHerb += e.GetEW(Entity.EntityType.herbivore);
@@ -725,7 +690,7 @@ public class TestManager : MonoBehaviour
                 localSum++;
                 return localSum;
             },
-            (localSum) => Interlocked.Add(ref numOfOmni, localSum) // thread local aggregator
+            (localSum) => Interlocked.Add(ref numOfOmni, localSum) 
         );
 
         if (numOfFood != 0)
@@ -788,11 +753,15 @@ public class TestManager : MonoBehaviour
 
         if (timerCur < 0)
         {
+            // Reset all the information
             ResetInfo();
 
+            // Should entities not be null remove all failing the IsAlive function from entities
             entities?.RemoveAll(e => !e.IsAlive());
+            
+            // Reset timer
             timerCur = timerMax;
-
+            
             curFood = new ConcurrentBag<Entity>();
             curHerb = new ConcurrentBag<Entity>();
             curCarn = new ConcurrentBag<Entity>();
